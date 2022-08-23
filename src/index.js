@@ -8,9 +8,14 @@ const project = (name) => {
     return { name, tasks, addTask };
 };
 
-const task = ({title, description, dueDate, priority = 2}) => {
-    const checkList = [];
-    let notes;
+function task({title, description, dueDate, priority = 2}) {
+    this.checkList = [];
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    let hemmelig = "Hemmelig";
+
     function CheckListItem(title) {
         this.title = title;
         this.isDone = false;
@@ -18,34 +23,52 @@ const task = ({title, description, dueDate, priority = 2}) => {
             this.isDone = !this.isDone;
         }
     }
-    const addCheckListItem = (title) => {
+    this.addCheckListItem = function(title) {
         const item = new CheckListItem(title);
-        checkList.push(item);
+        this.checkList.push(item);
     };
-    const addNotes = (text) => {
-        notes = text;
+    this.addNotes = function(text) {
+        this.notes = text;
     }
-    function getNotes() {
-        console.log(notes)
+    this.getNotes = function() {
         return this.notes;
     }
-    return { title, description, dueDate, priority, checkList, notes, addCheckListItem, addNotes, getNotes };
+    this.getSecret = function() {
+        return hemmelig;
+    }
+    this.modifySecret = function() {
+        hemmelig += " |";
+    }
 };
 
-
-let aa = task ({
+let aa = new task ({
     title: "Navn",
      description: "Noe som må gjøres",
       dueDate: "2022-08-22"
     });
+
+let bb = new task ({
+    title: "Navn 2",
+        description: "Noe som må gjøres",
+        dueDate: "2022-08-22"
+    });
+    
 
 console.log(aa);
 aa.addCheckListItem("Sjekk");
 console.log(aa.checkList[0]);
 aa.checkList[0].toggle();
 console.log(aa.checkList[0]);
-aa.notes = "Notater kommer her";
-// console.log(aa.notes);
+aa.addNotes ("Notater kommer her");
 console.log(aa.getNotes());
-console.log(aa.notes)
+console.log(aa.notes);
+console.log(aa);
+console.log(aa.getSecret());
+aa.modifySecret();
+aa.modifySecret();
+aa.modifySecret();
+aa.modifySecret();
+console.log(aa.getSecret());
 
+
+console.log(bb.getSecret());
