@@ -1,4 +1,5 @@
 import "./style.css";
+import { format } from "date-fns";
 
 const project = (name) => {
     const tasks = [];
@@ -44,7 +45,7 @@ function task({title, description, dueDate, priority = 2}) {
 let aa = new task ({
     title: "Navn",
      description: "Noe som må gjøres",
-      dueDate: "2022-08-22"
+      dueDate: new Date(2022, 7, 25)
     });
 
 let bb = new task ({
@@ -72,3 +73,8 @@ console.log(aa.getSecret());
 
 
 console.log(bb.getSecret());
+
+console.table(aa);
+console.table(bb);
+
+console.log(aa.dueDate);
