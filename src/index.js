@@ -1,80 +1,57 @@
 import "./style.css";
 import { format } from "date-fns";
+import { addProject, task, projects } from "./modules";
+import { addEventListeners } from "./gui";
 
-const project = (name) => {
-    const tasks = [];
-    const addTask = (task) => {
-        tasks.push(task);
-    }
-    return { name, tasks, addTask };
-};
 
-function task({title, description, dueDate, priority = 2}) {
-    this.checkList = [];
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    let hemmelig = "Hemmelig";
 
-    function CheckListItem(title) {
-        this.title = title;
-        this.isDone = false;
-        this.toggle = function() {
-            this.isDone = !this.isDone;
-        }
-    }
-    this.addCheckListItem = function(title) {
-        const item = new CheckListItem(title);
-        this.checkList.push(item);
-    };
-    this.addNotes = function(text) {
-        this.notes = text;
-    }
-    this.getNotes = function() {
-        return this.notes;
-    }
-    this.getSecret = function() {
-        return hemmelig;
-    }
-    this.modifySecret = function() {
-        hemmelig += " |";
-    }
-};
+addEventListeners();
 
-let aa = new task ({
+
+
+
+
+
+
+
+
+/////////// TESTING
+
+addProject("Prosjekt");
+
+projects[0].addTask(
+    new task ({
     title: "Navn",
      description: "Noe som må gjøres",
       dueDate: new Date(2022, 7, 25)
-    });
+    })
+);
 
-let bb = new task ({
+projects[0].addTask(
+    new task ({
     title: "Navn 2",
         description: "Noe som må gjøres",
         dueDate: "2022-08-22"
-    });
+    })
+);
     
 
-console.log(aa);
-aa.addCheckListItem("Sjekk");
-console.log(aa.checkList[0]);
-aa.checkList[0].toggle();
-console.log(aa.checkList[0]);
-aa.addNotes ("Notater kommer her");
-console.log(aa.getNotes());
-console.log(aa.notes);
-console.log(aa);
-console.log(aa.getSecret());
-aa.modifySecret();
-aa.modifySecret();
-aa.modifySecret();
-aa.modifySecret();
-console.log(aa.getSecret());
+console.log(projects[0]);
+projects[0].tasks[0].addCheckListItem("Sjekk");
+console.log(projects[0].tasks[0].checkList[0]);
+projects[0].tasks[0].checkList[0].toggle();
+console.log(projects[0].tasks[0].checkList[0]);
+projects[0].tasks[0].addNotes ("Notater kommer her");
+console.log(projects[0].tasks[0].getNotes());
+console.log(projects[0].tasks[0].notes);
+console.log(projects[0].tasks[0]);
 
 
-console.log(bb.getSecret());
+console.log(format(projects[0].tasks[0].dueDate, "dd.MM.yyyy"));
 
-console.table(aa);
-console.table(bb);
-
-console.log(aa.dueDate);
+/* const dateInput = document.querySelector("#dato");
+dateInput.addEventListener("change", () => {
+    if (dateInput.value) {
+        console.log(format(dateInput.valueAsDate, "dd.MM.yyyy"));
+    }
+}); */
