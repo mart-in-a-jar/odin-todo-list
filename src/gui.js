@@ -1,4 +1,4 @@
-const addProjectButton = document.querySelector("button#addProject");
+const addProjectButton = document.querySelector("#addProject");
 const addProjectModal = document.querySelector(".addProjectModal");
 
 function toggleModal(modal) {
@@ -15,4 +15,5 @@ function addEventListeners() {
         toggleModal(addProjectModal);
     });    
 }
+
 export { toggleModal, addEventListeners }

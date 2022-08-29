@@ -2,6 +2,7 @@ import "./style.css";
 import { format } from "date-fns";
 import { addProject, task, projects } from "./modules";
 import { addEventListeners } from "./gui";
+import "@fortawesome/fontawesome-pro/js/all";
 
 
 

@@ -26,6 +26,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-pro": "^6.1.2",
     "date-fns": "^2.29.2"
   }
 }
