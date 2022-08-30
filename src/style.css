@@ -65,11 +65,26 @@ a:visited {
 }
 
 .sidebar a {
+    padding: 10px 10px 10px var(--padding_left_for_list_elements);
+}
+
+.logo a {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
     gap: 12px;
-    padding: 10px 10px 10px var(--padding_left_for_list_elements);
+}
+
+.sidebar .projects a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar li a:hover {
+    background-color: #fbe8cc57;
+    border-left: var(--border_size_for_hover) solid var(--bgcolor);
+    padding-left: calc(var(--padding_left_for_list_elements) - var(--border_size_for_hover));
 }
 
 .sidebar ul {
@@ -84,12 +99,6 @@ a:visited {
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-}
-
-.sidebar li a:hover {
-    background-color: #fbe8cc57;
-    border-left: var(--border_size_for_hover) solid var(--bgcolor);
-    padding-left: calc(var(--padding_left_for_list_elements) - var(--border_size_for_hover));
 }
 
 #addProject svg {
