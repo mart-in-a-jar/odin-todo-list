@@ -101,3 +101,38 @@ a:visited {
 #projectName {
     margin-left: 10px;
 }
+
+.modals * {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    margin: 0;
+    transform: translate(-50%, 50%);
+    z-index: 1;
+}
+
+.modals input {
+    width: 300px;
+    height: 35px;
+    text-indent: 10px;
+    border-radius: 5px;
+    border: 2px solid var(--sidebarcolor);
+}
+
+.modals input:focus {
+    outline: none;
+}
+
+.blur {
+    background-color: rgba(0, 0, 0, 0.445);
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.blur.active {
+    display: block;
+}
