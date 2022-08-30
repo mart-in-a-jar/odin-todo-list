@@ -79,6 +79,9 @@ a:visited {
 
 .projects ul {
     margin:35px 0px 10px 0px;
+    max-height: 50vh;
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .sidebar li a:hover {

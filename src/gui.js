@@ -38,16 +38,36 @@ function addEventListeners() {
     addProjectModal.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
             addProject(e.target.value);
+            populateProjects()
             toggleModal(addProjectModal);
         }
     });
 }
 
 function populateProjects() {
-
+    const projectList = document.querySelector(".projects ul");
+    projectList.textContent = "";
+    projects.forEach(project => {
+        const listItem = document.createElement("li");
+        const projectItem = document.createElement("a");
+        listItem.appendChild(projectItem);
+        projectList.appendChild(listItem);
+        projectItem.textContent = project.name;
+        projectItem.href = "";
+        
+        console.log(project);
+    });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    populateProjects();
+});
 
 export { toggleModal, addEventListeners }
 
 ////
 toggleModal(addProjectModal);
+
+for (let i = 0; i < 35; i++) {
+    addProject(`Test ${i}`);
+}
