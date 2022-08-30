@@ -57,6 +57,7 @@ a:visited {
     grid-area: sidebar;
     background-color: var(--sidebarcolor);
     min-width: 200px;
+    max-width: 250px;
     text-transform: capitalize;
     color: white;
     padding-top: 20px;
@@ -80,8 +81,9 @@ a:visited {
 .projects ul {
     margin:35px 0px 10px 0px;
     max-height: 50vh;
-    overflow: auto;
-    scrollbar-width: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
 }
 
 .sidebar li a:hover {
