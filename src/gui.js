@@ -66,10 +66,4 @@ document.addEventListener("DOMContentLoaded", () => {
 export { toggleModal, addEventListeners }
 
 ////
-toggleModal(addProjectModal);
-
-addProject("aweaweaweawewaewaeawaweaweawewwwwwe");
-
-for (let i = 0; i < 35; i++) {
-    addProject(`Test ${i}`);
-}
+// toggleModal(addProjectModal);

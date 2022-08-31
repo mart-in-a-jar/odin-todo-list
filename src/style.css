@@ -5,10 +5,6 @@
     --headercolor: #FFD8A9;
 }
 
-#addProject span {
-    text-decoration: underline;
-}
-
 .hidden {
     display: none;
 }
@@ -68,21 +64,40 @@ a:visited {
     padding: 10px 10px 10px var(--padding_left_for_list_elements);
 }
 
-.logo a {
+.sideContent a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sideContent hr {
+    border: 2px solid var(--headercolor);
+}
+
+.logo a,
+.filter a {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
     gap: 12px;
 }
 
-.sidebar .projects a {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.filter svg {
+    width: 20px;
+}
+
+.filter {
+    margin-top: 30px;
 }
 
 .sidebar li a:hover {
     background-color: #fbe8cc57;
+    border-left: var(--border_size_for_hover) solid var(--bgcolor);
+    padding-left: calc(var(--padding_left_for_list_elements) - var(--border_size_for_hover));
+}
+
+.sidebar li a.active {
+    /* background-color: #fbe8cc57; */
     border-left: var(--border_size_for_hover) solid var(--bgcolor);
     padding-left: calc(var(--padding_left_for_list_elements) - var(--border_size_for_hover));
 }
@@ -93,8 +108,12 @@ a:visited {
     margin: 0px;
 }
 
+.filter ul {
+    margin-bottom: 15px;
+}
+
 .projects ul {
-    margin:35px 0px 10px 0px;
+    margin:15px 0px 10px 0px;
     max-height: 50vh;
     overflow-y: auto;
     overflow-x: hidden;
