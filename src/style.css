@@ -1,8 +1,22 @@
+/* Palette: https://colorhunt.co/palette/fdeedcffd8a9f1a661e38b29 */
+
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+  }
+  
 :root {
     font-family: sans-serif;
     --bgcolor: #FDEEDC;
     --sidebarcolor: #F1A661;
     --headercolor: #FFD8A9;
+
 }
 
 .hidden {
@@ -18,14 +32,50 @@
     min-height: 100vh;
 }
 
+/* Header */
+
 header {
     grid-area: header;
     background-color: var(--headercolor);
+    padding: 20px 50px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: auto;
+    justify-items: start;
+    align-items: center;
 }
 
-.main {
-    grid-area: main;
+#newTask {
+    padding: 20px 30px;
+    border-radius: 30px;
+    border: none;
+    background-color: var(--sidebarcolor);
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    justify-self: end;
+    align-self: end;
+}
+
+header .search {
+    height: 50px;
+    width: 100%;
+    max-width: 500px;
+    background: url(../dist/img/magnifying-glass-solid.svg);
+    background-repeat: no-repeat;
+    background-position: 10px;
     background-color: var(--bgcolor);
+    background-size: 30px;
+    padding: 23px 23px 23px 71px;
+    font-size: 1.3rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--sidebarcolor);
+    margin-right: 30px;
+}
+
+header .search:focus {
+    outline: none;
 }
 
 body {
@@ -41,11 +91,48 @@ a:visited {
     color: inherit;
 }
 
-.logo {
-    font-size: 2.3rem;
-    font-weight: bold;
-    margin-right: 15px;
+
+#projectName {
+    margin-left: 10px;
 }
+
+.modals * {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    margin: 0;
+    transform: translate(-50%, 50%);
+    z-index: 1;
+}
+
+.modals input {
+    width: 320px;
+    height: 60px;
+    text-indent: 10px;
+    border-radius: 5px;
+    border: 2px solid var(--sidebarcolor);
+    font-size: 2rem;
+}
+
+.modals input:focus {
+    outline: none;
+}
+
+.blur {
+    background-color: rgba(0, 0, 0, 0.445);
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.blur.active {
+    display: block;
+}
+
+/* Sidebar */
 
 .sidebar {
     --padding_left_for_list_elements: 30px;
@@ -59,6 +146,13 @@ a:visited {
     padding-top: 20px;
     font-size: 1.5rem;
 }
+
+.logo {
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
 
 .sidebar a {
     padding: 10px 10px 10px var(--padding_left_for_list_elements);
@@ -97,7 +191,6 @@ a:visited {
 }
 
 .sidebar li a.active {
-    /* background-color: #fbe8cc57; */
     border-left: var(--border_size_for_hover) solid var(--bgcolor);
     padding-left: calc(var(--padding_left_for_list_elements) - var(--border_size_for_hover));
 }
@@ -131,41 +224,59 @@ a:visited {
     transform: scale(1.2);
 }
 
-#projectName {
-    margin-left: 10px;
+/* Tasks */
+
+.main {
+    grid-area: main;
+    background-color: var(--bgcolor);
 }
 
-.modals * {
-    position: fixed;
-    top: 40%;
-    left: 50%;
-    margin: 0;
-    transform: translate(-50%, 50%);
-    z-index: 1;
+.tasks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 20px;
 }
 
-.modals input {
+.task {
+    outline: 2px solid #ffd8a983;
+    border-left: 5px solid var(--sidebarcolor);
+    border-radius: 10px;
+    height: 200px;
     width: 300px;
-    height: 35px;
-    text-indent: 10px;
-    border-radius: 5px;
-    border: 2px solid var(--sidebarcolor);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    color: rgb(59, 59, 59);
 }
 
-.modals input:focus {
-    outline: none;
+.task h3 {
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-.blur {
-    background-color: rgba(0, 0, 0, 0.445);
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    top: 0;
-    left: 0;
-    display: none;
+.task article {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    column-width: 100vw;
+    word-wrap: break-word;
 }
 
-.blur.active {
-    display: block;
+.task .buttons {
+    align-self: flex-end;
+    font-size: 1.3rem;
+    color: var(--headercolor);
+}
+
+.task .buttons a:hover {
+    background-color: #94B49F;
+    color: var(--sidebarcolor);
+}
+
+.task:hover {
+    outline: 2px solid var(--sidebarcolor);
 }

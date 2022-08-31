@@ -35,10 +35,12 @@ function addEventListeners() {
     backDrop.addEventListener("click", () => {
         toggleModal(activeModal);
     });
-    addProjectModal.addEventListener("keypress", (e) => {
+    addProjectModal.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             addProject(e.target.value);
             populateProjects()
+            toggleModal(addProjectModal);
+        } else if (e.key === "Escape") {
             toggleModal(addProjectModal);
         }
     });
@@ -53,9 +55,7 @@ function populateProjects() {
         listItem.appendChild(projectItem);
         projectList.appendChild(listItem);
         projectItem.textContent = project.name;
-        projectItem.href = "";
-        
-        console.log(project);
+        projectItem.href = ""; 
     });
 }
 
