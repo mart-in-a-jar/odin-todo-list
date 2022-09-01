@@ -7,6 +7,10 @@ const backDrop = document.querySelector(".blur");
 const newTask = document.querySelector("#newTask");
 
 let activeModal;
+let activeProject = {
+    id: undefined,
+    project: undefined
+};
 
 function setActiveModal(modal) {
     activeModal = modal;
@@ -51,6 +55,7 @@ function addEventListeners() {
 
     document.addEventListener("DOMContentLoaded", () => {
         populateProjects();
+        setInitialActiveProject();
     });
 
     newTask.addEventListener("click", () => {
@@ -70,9 +75,45 @@ function populateProjects() {
         projectList.appendChild(listItem);
         projectItem.textContent = project.name;
         projectItem.href = ""; 
+        projectItem.dataset.projectNumber = projects.indexOf(project);
+        
+        
+        projectItem.addEventListener("click", changeProject)
     });
+    styleActiveProject("add");
 }
 
+function changeProject(e) {
+    e.preventDefault();
+    
+    styleActiveProject("remove");
+    activeProject.id = e.target.dataset.projectNumber;
+    activeProject.project = projects[e.target.dataset.projectNumber];
+    styleActiveProject("add");
+}
+
+function styleActiveProject(task) {
+    if(task === "add") {
+        if(activeProject.id) {
+            document.querySelectorAll(".projects ul li a")[activeProject.id].classList.add("active");
+        } else {
+            document.querySelector(".projects ul li a").classList.add("active");
+        }
+    } else if(task === "remove") {
+        document.querySelectorAll(".projects ul li a")[activeProject.id].classList.remove("active");
+    }
+        
+}
+
+function setInitialActiveProject() {
+    activeProject.project = projects[0];
+    activeProject.id = 0;
+    styleActiveProject("add")
+}
+
+function populateTasks() {
+    const taskList = document.querySelector(".main .tasks");
+}
 
 export { toggleModal, addEventListeners }
 

@@ -145,7 +145,6 @@ a:visited {
     background-color: var(--sidebarcolor);
     min-width: 200px;
     max-width: 250px;
-    text-transform: capitalize;
     color: white;
     padding-top: 20px;
     font-size: 1.5rem;

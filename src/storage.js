@@ -6,12 +6,17 @@ function saveToLocalStorage(name, object) {
 
 function retrieveFromLocalStorage() {
     let result = JSON.parse(localStorage.getItem("projects"));
-    result.forEach(project => {
-        addProject(project.name);
-    });
-    for(let i = 0; i < projects.length; i++) {
-        for(let j = 0; j < result[i].tasks.length; j++) {
-            projects[i].addTask(Object.assign(new task({title: "", description: "", dueDate: ""}), result[i].tasks[j]));
+    if(!result) {
+        addProject("Default project");
+        return;
+    } else {
+        result.forEach(project => {
+            addProject(project.name);
+        });
+        for(let i = 0; i < projects.length; i++) {
+            for(let j = 0; j < result[i].tasks.length; j++) {
+                projects[i].addTask(Object.assign(new task({title: "", description: "", dueDate: ""}), result[i].tasks[j]));
+            }
         }
     }
 }

@@ -4,3 +4,4 @@
 - modal for å se på/redigere tasks
 - legge til nye tasks på aktivt prosjekt
 - filter
+- endre navn på prosjekt, slette prosjekt
