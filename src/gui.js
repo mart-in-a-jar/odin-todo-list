@@ -1,4 +1,4 @@
-import { addProject, projects } from "./modules";
+import { addProject, projects, task } from "./modules";
 import { saveToLocalStorage } from "./storage";
 
 const addProjectButton = document.querySelector("#addProject");
@@ -56,11 +56,11 @@ function addEventListeners() {
     document.addEventListener("DOMContentLoaded", () => {
         populateProjects();
         setInitialActiveProject();
+        populateTasks();
     });
 
     newTask.addEventListener("click", () => {
-        saveToLocalStorage("projects", projects);
-        console.log(projects);
+
     });
     
 }
@@ -90,6 +90,8 @@ function changeProject(e) {
     activeProject.id = e.target.dataset.projectNumber;
     activeProject.project = projects[e.target.dataset.projectNumber];
     styleActiveProject("add");
+
+    populateTasks();
 }
 
 function styleActiveProject(task) {
@@ -113,9 +115,40 @@ function setInitialActiveProject() {
 
 function populateTasks() {
     const taskList = document.querySelector(".main .tasks");
+    taskList.textContent = "";
+    activeProject.project.tasks.forEach(task => {
+        const taskBox = document.createElement("div");
+        taskBox.classList.add("task");
+        taskBox.dataset.taskNumber = activeProject.project.tasks.indexOf(task);
+        taskBox.innerHTML = `<article>
+        <h3>${task.title}</h3>
+        <p>${task.description}</p>
+    </article>
+    <div class="buttons">
+        <a href=""><i class="fa-solid fa-square-check fa-2xl"></i></a>
+    </div>`
+    taskList.appendChild(taskBox);
+    });
+    console.log(activeProject.project.tasks);
 }
 
 export { toggleModal, addEventListeners }
 
 ////
 // toggleModal(addProjectModal);
+
+document.querySelector("#save").addEventListener("click", () => {
+    saveToLocalStorage("projects", projects);
+    console.log(projects);
+});
+
+document.querySelector("#addTask").addEventListener("click", () => {
+    let no = prompt("Proj. no");
+    projects[no].addTask(new task(
+        {
+        title: "Navn",
+         description: "Noe som må gjøres",
+          dueDate: new Date(2022, 7, 25)
+        }
+        ));
+});

@@ -8,7 +8,6 @@ import "@fortawesome/fontawesome-pro/js/all";
 
 
 addEventListeners();
-// projects = retrieveFromLocalStorage("projects");
 retrieveFromLocalStorage();
 
 
