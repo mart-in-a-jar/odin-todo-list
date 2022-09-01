@@ -1,8 +1,10 @@
 import { addProject, projects } from "./modules";
+import { saveToLocalStorage } from "./storage";
 
 const addProjectButton = document.querySelector("#addProject");
 const addProjectModal = document.querySelector(".addProjectModal");
 const backDrop = document.querySelector(".blur");
+const newTask = document.querySelector("#newTask");
 
 let activeModal;
 
@@ -32,9 +34,11 @@ function addEventListeners() {
     addProjectButton.addEventListener("click", () => {
         toggleModal(addProjectModal);
     });
+
     backDrop.addEventListener("click", () => {
         toggleModal(activeModal);
     });
+
     addProjectModal.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             addProject(e.target.value);
@@ -44,6 +48,16 @@ function addEventListeners() {
             toggleModal(addProjectModal);
         }
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        populateProjects();
+    });
+
+    newTask.addEventListener("click", () => {
+        saveToLocalStorage("projects", projects);
+        console.log(projects);
+    });
+    
 }
 
 function populateProjects() {
@@ -59,9 +73,6 @@ function populateProjects() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    populateProjects();
-});
 
 export { toggleModal, addEventListeners }
 

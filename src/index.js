@@ -2,15 +2,15 @@ import "./style.css";
 import { format } from "date-fns";
 import { addProject, task, projects } from "./modules";
 import { addEventListeners } from "./gui";
+import { retrieveFromLocalStorage } from "./storage";
 import "@fortawesome/fontawesome-pro/js/all";
 
 
 
 addEventListeners();
-
-
-
-
+// projects = retrieveFromLocalStorage("projects");
+retrieveFromLocalStorage();
+console.log(projects);
 
 
 
@@ -18,7 +18,7 @@ addEventListeners();
 
 /////////// TESTING
 
-addProject("Prosjekt");
+/* addProject("Prosjekt");
 
 projects[0].addTask(
     new task ({
@@ -48,7 +48,7 @@ console.log(projects[0].tasks[0].notes);
 console.log(projects[0].tasks[0]);
 
 
-console.log(format(projects[0].tasks[0].dueDate, "dd.MM.yyyy"));
+console.log(format(projects[0].tasks[0].dueDate, "dd.MM.yyyy")); */
 
 /* const dateInput = document.querySelector("#dato");
 dateInput.addEventListener("change", () => {

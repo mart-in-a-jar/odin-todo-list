@@ -58,6 +58,10 @@ header {
     align-self: end;
 }
 
+#newTask:hover {
+    outline: 0.8px solid var(--bgcolor);
+}
+
 header .search {
     height: 50px;
     width: 100%;
@@ -274,9 +278,10 @@ a:visited {
 
 .task .buttons a:hover {
     background-color: #94B49F;
-    color: var(--sidebarcolor);
+    /* color: var(--sidebarcolor); */
 }
 
 .task:hover {
-    outline: 2px solid var(--sidebarcolor);
+    /* outline: 2px solid var(--sidebarcolor); */
+    background-color: #ffebd3;
 }
