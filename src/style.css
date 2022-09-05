@@ -100,7 +100,7 @@ a:visited {
     margin-left: 10px;
 }
 
-.modals * {
+.modals > * {
     position: fixed;
     top: 40%;
     left: 50%;
@@ -109,7 +109,7 @@ a:visited {
     z-index: 1;
 }
 
-.modals input {
+.modals > input {
     width: 320px;
     height: 60px;
     text-indent: 10px;
@@ -248,7 +248,7 @@ a:visited {
     }
 }
 
-.task {
+.tasks .task {
     outline: 2px solid #ffd8a983;
     border-left: 5px solid var(--sidebarcolor);
     border-radius: 10px;
@@ -262,32 +262,64 @@ a:visited {
     color: rgb(59, 59, 59);
 }
 
-.task h3 {
+.tasks .task h3 {
     margin: 0;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.task article {
+.tasks .task article {
     overflow: hidden;
     text-overflow: ellipsis;
     column-width: 100vw;
     word-wrap: break-word;
 }
 
-.task .buttons {
+.tasks .task .buttons {
     align-self: flex-end;
     font-size: 1.3rem;
     color: var(--headercolor);
 }
 
-.task .buttons a:hover {
+.tasks .task .buttons a:hover {
     background-color: #94B49F;
     /* color: var(--sidebarcolor); */
 }
 
-.task:hover {
+.tasks .task:hover {
     /* outline: 2px solid var(--sidebarcolor); */
     background-color: #ffebd3;
+}
+
+/* Task card */
+
+.taskCard {
+    background-color: var(--bgcolor);
+    padding: 20px;
+    width: 500px;
+    display: grid;
+}
+
+.taskCard .task.title {
+    font-size: 2rem;
+}
+
+.taskCard .task.title {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.taskCard .task.title h2 {
+    margin: 0;
+}
+
+.taskCard .task .fa-circle:hover {
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.842) 0%, transparent 70%); 
+    cursor: pointer;
+}
+
+.fa-circle {
+
 }

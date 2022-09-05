@@ -6,6 +6,7 @@ const addProjectModal = document.querySelector(".addProjectModal");
 const addTaskModal = document.querySelector(".addTaskModal");
 const backDrop = document.querySelector(".blur");
 const newTask = document.querySelector("#newTask");
+const taskModal = document.querySelector(".taskModal");
 
 let activeModal;
 let activeProject = {
@@ -66,6 +67,13 @@ function addEventListeners() {
         } else if (e.key === "Escape") {
             toggleModal(addTaskModal);
         }
+    });
+
+    window.addEventListener("keypress", (e) => {
+        // Don't fire if backdrop (ie any modal) is active
+        if (!document.querySelector(".blur.active") && e.code === "KeyN") {
+            toggleModal(addTaskModal);
+        };
     });
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -143,20 +151,30 @@ const populateTasks = (() => {
         <div class="buttons">
             <a href=""><i class="fa-solid fa-square-check fa-2xl"></i></a>
         </div>`
+        taskBox.addEventListener("click", taskEdit.show);
         taskList.appendChild(taskBox);
         });
     }
     function all() {
-        let tasks = activeProject.project.getTasks.all();
+        let tasks = activeProject.project.getTasks.active();
         writeTasks(tasks);
     }
 
     return { all }
-})()
+})();
 
-function editTask() {
+const taskEdit = (() => {
 
-}
+    function show() {
+        let task = activeProject.project.tasks[this.dataset.taskNumber];
+        taskModal.addEventListener("click", () => {
+            console.log(taskModal);
+        });
+        toggleModal(taskModal);
+    }
+    
+    return { show }
+})();
 
 function addTask(data) {
     activeProject.project.addTask(new task({title: data}))
