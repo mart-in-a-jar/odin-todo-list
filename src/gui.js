@@ -3,6 +3,7 @@ import { saveToLocalStorage } from "./storage";
 
 const addProjectButton = document.querySelector("#addProject");
 const addProjectModal = document.querySelector(".addProjectModal");
+const addTaskModal = document.querySelector(".addTaskModal");
 const backDrop = document.querySelector(".blur");
 const newTask = document.querySelector("#newTask");
 
@@ -39,6 +40,10 @@ function addEventListeners() {
         toggleModal(addProjectModal);
     });
 
+    newTask.addEventListener("click", () => {
+        toggleModal(addTaskModal);
+    })
+
     backDrop.addEventListener("click", () => {
         toggleModal(activeModal);
     });
@@ -50,6 +55,16 @@ function addEventListeners() {
             toggleModal(addProjectModal);
         } else if (e.key === "Escape") {
             toggleModal(addProjectModal);
+        }
+    });
+
+    addTaskModal.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            addTask(e.target.value);
+            populateTasks.all();
+            toggleModal(addTaskModal);
+        } else if (e.key === "Escape") {
+            toggleModal(addTaskModal);
         }
     });
 
@@ -123,7 +138,7 @@ const populateTasks = (() => {
             taskBox.dataset.taskNumber = activeProject.project.tasks.indexOf(task);
             taskBox.innerHTML = `<article>
             <h3>${task.title}</h3>
-            <p>${task.description}</p>
+            <p>${task.description || ""}</p>
         </article>
         <div class="buttons">
             <a href=""><i class="fa-solid fa-square-check fa-2xl"></i></a>
@@ -139,7 +154,15 @@ const populateTasks = (() => {
     return { all }
 })()
 
-export { toggleModal, addEventListeners }
+function editTask() {
+
+}
+
+function addTask(data) {
+    activeProject.project.addTask(new task({title: data}))
+}
+
+export { addEventListeners }
 
 ////
 // toggleModal(addProjectModal);
