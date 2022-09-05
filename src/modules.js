@@ -9,7 +9,19 @@ const project = (name) => {
     const addTask = (task) => {
         tasks.push(task);
     }
-    return { name, tasks, addTask };
+    const getTasks = (() => {
+        const all = () => {
+            return tasks;
+        }
+        const today = () => {
+
+        }
+        const completed = () => {
+
+        }
+        return { all, today, completed }
+    })()
+    return { name, tasks, addTask, getTasks };
 };
 
 function task({title, description, dueDate, priority = 2}) {
@@ -18,6 +30,7 @@ function task({title, description, dueDate, priority = 2}) {
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
+    this.complete = false;
 
     function CheckListItem(title) {
         this.title = title;

@@ -56,7 +56,7 @@ function addEventListeners() {
     document.addEventListener("DOMContentLoaded", () => {
         populateProjects();
         setInitialActiveProject();
-        populateTasks();
+        populateTasks.all();
     });
 
     newTask.addEventListener("click", () => {
@@ -91,7 +91,7 @@ function changeProject(e) {
     activeProject.project = projects[e.target.dataset.projectNumber];
     styleActiveProject("add");
 
-    populateTasks();
+    populateTasks.all();
 }
 
 function styleActiveProject(task) {
@@ -113,24 +113,31 @@ function setInitialActiveProject() {
     styleActiveProject("add")
 }
 
-function populateTasks() {
-    const taskList = document.querySelector(".main .tasks");
-    taskList.textContent = "";
-    activeProject.project.tasks.forEach(task => {
-        const taskBox = document.createElement("div");
-        taskBox.classList.add("task");
-        taskBox.dataset.taskNumber = activeProject.project.tasks.indexOf(task);
-        taskBox.innerHTML = `<article>
-        <h3>${task.title}</h3>
-        <p>${task.description}</p>
-    </article>
-    <div class="buttons">
-        <a href=""><i class="fa-solid fa-square-check fa-2xl"></i></a>
-    </div>`
-    taskList.appendChild(taskBox);
-    });
-    console.log(activeProject.project.tasks);
-}
+const populateTasks = (() => {
+    function writeTasks(tasks) {
+        const taskList = document.querySelector(".main .tasks");
+        taskList.textContent = "";
+        tasks.forEach(task => {
+            const taskBox = document.createElement("div");
+            taskBox.classList.add("task");
+            taskBox.dataset.taskNumber = activeProject.project.tasks.indexOf(task);
+            taskBox.innerHTML = `<article>
+            <h3>${task.title}</h3>
+            <p>${task.description}</p>
+        </article>
+        <div class="buttons">
+            <a href=""><i class="fa-solid fa-square-check fa-2xl"></i></a>
+        </div>`
+        taskList.appendChild(taskBox);
+        });
+    }
+    function all() {
+        let tasks = activeProject.project.getTasks.all();
+        writeTasks(tasks);
+    }
+
+    return { all }
+})()
 
 export { toggleModal, addEventListeners }
 
@@ -152,3 +159,5 @@ document.querySelector("#addTask").addEventListener("click", () => {
         }
         ));
 });
+
+console.log(projects);
