@@ -299,6 +299,9 @@ a:visited {
     padding: 20px;
     width: 500px;
     display: grid;
+    border-radius: 20px;
+    border: 2px solid var(--sidebarcolor);
+    gap: 10px;
 }
 
 .taskCard .task.title {
@@ -306,20 +309,55 @@ a:visited {
 }
 
 .taskCard .task.title {
-    display: flex;
+    display: grid;
     gap: 10px;
     align-items: center;
+    grid-template-columns: auto 1fr;
 }
 
 .taskCard .task.title h2 {
     margin: 0;
 }
 
-.taskCard .task .fa-circle:hover {
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.842) 0%, transparent 70%); 
+.taskCard .task.title .fa-square-check:hover {
     cursor: pointer;
 }
 
-.fa-circle {
+.taskCard .task.title .fa-square-check:hover ~ .checkMark {
+    height: 40px;
+    background-color: #94B49F;
+    z-index: 1;
+}
 
+.taskCard .task.title .fa-square-check,
+.taskCard .task.title .checkMark {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.taskCard .task .fa-square-check {
+    color: var(--headercolor);
+    z-index: 2;
+}
+
+.taskCard .task .fa-square-check.done {
+    color: var(--sidebarcolor);
+}
+
+.taskCard .task .fa-square-check.done ~ .checkMark {
+    height: 40px;
+    background-color: #94B49F;
+    z-index: 1;
+}
+
+.taskCard .task .fa-square-check.done:hover ~ .checkMark {
+    display: none;
+}
+
+.taskCard .task .fa-square-check.done:hover {
+    color: var(--headercolor);
+}
+
+.checkList {
+    display: flex;
+    flex-direction: column;
 }
