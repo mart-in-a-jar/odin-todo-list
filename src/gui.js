@@ -164,17 +164,27 @@ const populateTasks = (() => {
 })();
 
 const taskEdit = (() => {
+    const titleInput = document.querySelector(".task.title input");
 
     function show() {
         let task = activeProject.project.tasks[this.dataset.taskNumber];
-        taskModal.addEventListener("click", () => {
-            console.log(taskModal);
-        });
+        // taskModal.textContent = "";
         toggleModal(taskModal);
     }
+
+    titleInput.addEventListener("blur", e => {
+        scrollLeft(e.target);
+    });
+    titleInput.addEventListener("focus", e => {
+        e.target.selectionStart = e.target.value.length;
+    });
     
     return { show }
 })();
+
+function scrollLeft(element) {
+    element.scrollLeft = 0;
+}
 
 function addTask(data) {
     activeProject.project.addTask(new task({title: data}))

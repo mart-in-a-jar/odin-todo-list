@@ -1,7 +1,9 @@
-- lagre/hente fra local storage
+// - lagre/hente fra local storage
 - sette aktivt prosjekt
 - liste ut tasks fra aktivt prosjekt
 - modal for å se på/redigere tasks
 - legge til nye tasks på aktivt prosjekt
 - filter
 - endre navn på prosjekt, slette prosjekt
+
+- endre checkbox for å fullføre oppgave til checkbox. design som i handlekurven på aliexpress?

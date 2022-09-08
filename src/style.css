@@ -297,15 +297,30 @@ a:visited {
 .taskCard {
     background-color: var(--bgcolor);
     padding: 20px;
-    width: 500px;
+    width: 600px;
     display: grid;
     border-radius: 20px;
     border: 2px solid var(--sidebarcolor);
     gap: 10px;
+    grid-template-columns: 2fr 1fr;
+}
+
+.task.leftSide,
+.task.rightSide {
+    display: grid;
+    gap: 10px;
+}
+
+.task.leftSide {
+    align-content: start;
+}
+
+.task.rightSide {
+    grid-template-rows: 1fr 30px 30px 30px 1fr;
 }
 
 .taskCard .task.title {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .taskCard .task.title {
@@ -317,6 +332,19 @@ a:visited {
 
 .taskCard .task.title h2 {
     margin: 0;
+}
+
+.taskCard .task.title input {
+    margin: 0;
+    width: 90%;
+    background-color: transparent;
+    border: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.taskCard .task.title input:focus {
 }
 
 .taskCard .task.title .fa-square-check:hover {
