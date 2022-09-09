@@ -57,30 +57,37 @@
                             <i class="fa-solid fa-square-check fa-2xl"></i>
                             <div class="checkMark"></div>
                             <input type="text" value="tittel">
-                            <!-- <h2>tittel</h2> -->
                         </div>
-                        <div class="checkList">
+                        <div class="task checkList">
                             <div class="checkListItem">
                                 <input type="checkbox" name="checkList" id="check-1">
-                                <label for="check-1">Noe</label>
+                                <label for="cjakdasds1">Noe</label>
                             </div>
                             <div class="checkListItem">
                                 <input type="checkbox" name="checkList" id="check-2">
                                 <label for="check-2">Noe annet</label>
                             </div>
                         </div>
-                        <div class="task description">Beskrivelse Beskrivelse Beskrivelse</div>
+                        <div class="task description" contenteditable>Beskrivelse Beskrivelse Beskrivelse Beskrivelse Beskrivelse Beskrivelse Beskri Beskrivelse Beskrivelse Beskrivelse Beskrivelseelse Beskrivelse</div>
                     </div>
                     <div class="task rightSide">
-                        <input type="date" name="dueDate" id="taskDueDate" value="2022-10-10">
-                        <select name="priority" id="taskPriority">
-                            <option value="1">1</option>
-                            <option value="2" selected>2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <button>Notes</button>
+                        <div class="task date">
+                            <label for="taskDueDate">Due date</label>
+                            <input type="date" name="dueDate" id="taskDueDate" value="2022-10-10" required>
+                        </div>
+                        <div class="task priority">
+                            <label for="taskPriority">Priority</label>
+                            <select name="priority" id="taskPriority">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="task notes">
+                            <button>Notes</button>
+                        </div>
                     </div>
             </div>
             </div>

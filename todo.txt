@@ -1,9 +1,11 @@
 // - lagre/hente fra local storage
-- sette aktivt prosjekt
-- liste ut tasks fra aktivt prosjekt
+// - sette aktivt prosjekt
+// - liste ut tasks fra aktivt prosjekt
 - modal for å se på/redigere tasks
-- legge til nye tasks på aktivt prosjekt
+// - legge til nye tasks på aktivt prosjekt
 - filter
 - endre navn på prosjekt, slette prosjekt
+- custom date picker
+- knapp for å legge til på checklist
 
 - endre checkbox for å fullføre oppgave til checkbox. design som i handlekurven på aliexpress?

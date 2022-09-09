@@ -164,26 +164,99 @@ const populateTasks = (() => {
 })();
 
 const taskEdit = (() => {
-    const titleInput = document.querySelector(".task.title input");
 
     function show() {
         let task = activeProject.project.tasks[this.dataset.taskNumber];
-        // taskModal.textContent = "";
+        taskModal.textContent = "";
+        taskModal.innerHTML = `<div class="taskCard">
+        <div class="task leftSide">
+            <div class="task title">
+                <i class="fa-solid fa-square-check fa-2xl"></i>
+                <div class="checkMark"></div>
+                <input type="text" value="${task.title}">
+            </div>
+            <div class="task checkList">
+            </div>
+            <textarea class="task description" placeholder="Beskrivelse">${task.description || ""}</textarea>
+        </div>
+        <div class="task rightSide">
+            <div class="task date">
+                <label for="taskDueDate">Due date</label>
+                <input type="date" name="dueDate" id="taskDueDate" value="${task.dueDate}" required>
+            </div>
+            <div class="task priority">
+                <label for="taskPriority">Priority</label>
+                <select name="priority" id="taskPriority">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="task notes">
+                <button>Notes</button>
+            </div>
+        </div>
+</div>`
+
+        const titleInput = document.querySelector(".task.title input");
+        const descriptionInput = document.querySelector(".taskCard textarea");
+        const dateInput = document.querySelector("#taskDueDate");
+
+        let checkList = document.querySelector(".task.checkList");
+        task.checkList.forEach(item => {
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("checkListItem");
+            const box = document.createElement("input");
+            box.type = "checkbox";
+            const taskId = task.checkList.indexOf(item);
+            box.id = "check-" + (taskId + 1);
+            box.checked = item.isDone;
+            box.dataset.checkListId = taskId;
+            const title = document.createElement("label");
+            title.htmlFor = box.id;
+            title.textContent = item.title;
+            wrapper.append(box, title);
+            checkList.appendChild(wrapper);
+        });
+
+        // Auto extend text area
+        descriptionInput.addEventListener("keyup", (e) => {
+            extendTextArea(e.target);
+        });
+
+        titleInput.addEventListener("blur", e => {
+            scrollLeft(e.target);
+        });
+        titleInput.addEventListener("focus", e => {
+            e.target.selectionStart = e.target.value.length;
+        });
+
+
+        dateInput.addEventListener("change", (e) => {
+            console.log(e.target.value);
+        });
+
         toggleModal(taskModal);
+        extendTextArea(descriptionInput);
+
+
+    
     }
 
-    titleInput.addEventListener("blur", e => {
-        scrollLeft(e.target);
-    });
-    titleInput.addEventListener("focus", e => {
-        e.target.selectionStart = e.target.value.length;
-    });
+    
     
     return { show }
 })();
 
 function scrollLeft(element) {
     element.scrollLeft = 0;
+}
+
+function extendTextArea(element) {
+    element.style.height = "1px";
+    element.style.height = (20 + element.scrollHeight) + "px";
 }
 
 function addTask(data) {
@@ -211,4 +284,3 @@ document.querySelector("#addTask").addEventListener("click", () => {
         ));
 });
 
-console.log(projects);

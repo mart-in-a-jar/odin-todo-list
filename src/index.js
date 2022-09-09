@@ -16,6 +16,19 @@ retrieveFromLocalStorage();
 
 /////////// TESTING
 
+
+let demoOppgave = new task({title: "Navn?"});
+demoOppgave.addCheckListItem("Sjekk 1");
+demoOppgave.addCheckListItem("Sjekk 2");
+demoOppgave.addCheckListItem("Sjekk 3");
+demoOppgave.checkList[1].toggle();
+demoOppgave.description = "JALKjrfkeladnj jalkwej lakjaklwej jklawerj og hjawejakl !! \n aeaw \n\n\n\n\n aweawe"
+demoOppgave.dueDate = "2022-09-09"
+
+projects[0].addTask(demoOppgave);
+
+
+
 /* addProject("Prosjekt");
 
 projects[0].addTask(
