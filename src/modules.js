@@ -38,6 +38,10 @@ function task({title, description, dueDate, priority = 2}) {
     this.priority = priority;
     this.complete = false;
 
+    this.toggle = function() {
+        this.complete = !this.complete;
+    }
+
     function CheckListItem(title) {
         this.title = title;
         this.isDone = false;

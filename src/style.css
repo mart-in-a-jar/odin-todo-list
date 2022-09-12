@@ -277,6 +277,11 @@ a:visited {
     pointer-events: none;
 }
 
+.tasks .task .buttons a.complete *,
+.taskModal .task.title a.complete * {
+    pointer-events: none;
+}
+
 .tasks .task .buttons {
     align-self: flex-end;
     font-size: 1.3rem;
@@ -387,18 +392,23 @@ a:visited {
     width: 60%;
 }
 
-.taskCard .task.title .fa-square-check:hover,
+.taskCard .task.title a.complete:hover,
 .taskCard .checkListItem > *:hover,
 .taskCard .task.priority select:hover,
 input[type=date] {
     cursor: pointer;
 }
 
-.taskCard .task.title .fa-square-check:hover ~ .checkMark {
+.taskCard .task.title a.complete:hover .checkMark {
     height: 30px;
     width: 30px;
     background-color: #94B49F;
     z-index: 1;
+}
+
+.taskCard .task.title a.complete {
+    display: grid;
+    align-items: center;
 }
 
 .taskCard .task.title .fa-square-check,
@@ -412,22 +422,22 @@ input[type=date] {
     z-index: 2;
 }
 
-.taskCard .task .fa-square-check.done {
+.taskCard .task a.complete.done .fa-square-check {
     color: var(--sidebarcolor);
 }
 
-.taskCard .task .fa-square-check.done ~ .checkMark {
+.taskCard .task a.complete.done .checkMark {
     height: 30px;
     width: 30px;
     background-color: #94B49F;
     z-index: 1;
 }
 
-.taskCard .task .fa-square-check.done:hover ~ .checkMark {
+.taskCard .task a.complete.done:hover .checkMark {
     display: none;
 }
 
-.taskCard .task .fa-square-check.done:hover {
+.taskCard .task a.complete.done:hover .fa-square-check {
     color: var(--headercolor);
 }
 

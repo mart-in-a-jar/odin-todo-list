@@ -115,7 +115,7 @@ function changeProject(e) {
     activeProject.project = projects[e.target.dataset.projectNumber];
     styleActiveProject();
 
-    populateTasks.active(); // Apply active filter
+    populateTasks[activeFilter]();
 }
 
 function styleActiveProject() {
@@ -179,11 +179,20 @@ const populateTasks = (() => {
             <p>${task.description || ""}</p>
         </article>
         <div class="buttons">
-            <a href=""><i class="fa-solid fa-square-check fa-2xl"></i></a>
+            <a class="complete" data-task-number="${activeProject.project.tasks.indexOf(task)}" href="">
+            <i class="fa-solid fa-square-check fa-2xl"></i></a>
         </div>`
         taskBox.addEventListener("click", e => taskEdit.show(e.target.dataset.taskNumber));
         taskList.appendChild(taskBox);
         });
+    document.querySelectorAll(".task .buttons a.complete").forEach(button => {
+        button.addEventListener("click", e => {
+            e.preventDefault();
+            let task = activeProject.project.tasks[e.target.dataset.taskNumber];
+            taskEdit.complete(task);
+            populateTasks[activeFilter]();
+        });
+    });
     }
     function active() {
         let tasks = activeProject.project.getTasks.active();
@@ -215,8 +224,10 @@ const taskEdit = (() => {
         taskModal.innerHTML = `<div class="taskCard">
         <div class="task leftSide">
             <div class="task title">
+                <a class="complete">
                 <i class="fa-solid fa-square-check fa-2xl"></i>
                 <div class="checkMark"></div>
+                </a>
                 <input type="text" value="${task.title}">
             </div>
             <div class="task checkList">
@@ -264,6 +275,13 @@ const taskEdit = (() => {
             wrapper.append(box, title);
             checkList.appendChild(wrapper);
         });
+        taskModal.querySelector(".task.title a.complete").addEventListener("click", e => {
+            taskEdit.complete(task);
+            populateTasks[activeFilter]();
+            if(task.complete) {
+                e.target.classList.add("done");
+            } else e.target.classList.remove("done");
+        });
 
         // Auto extend text area
         descriptionInput.addEventListener("keyup", (e) => {
@@ -285,13 +303,13 @@ const taskEdit = (() => {
         toggleModal(taskModal);
         extendTextArea(descriptionInput);
 
-
-    
     }
-
+    function complete(task) {
+        task.toggle();
+    }
     
     
-    return { show }
+    return { show, complete }
 })();
 
 function scrollLeft(element) {
