@@ -105,52 +105,48 @@ function populateProjects() {
         
         projectItem.addEventListener("click", changeProject)
     });
-    styleActiveProject("add");
+    styleActiveProject();
 }
 
 function changeProject(e) {
     e.preventDefault();
     
-    styleActiveProject("remove");
     activeProject.id = e.target.dataset.projectNumber;
     activeProject.project = projects[e.target.dataset.projectNumber];
-    styleActiveProject("add");
+    styleActiveProject();
 
     populateTasks.active(); // Apply active filter
 }
 
-function styleActiveProject(mode) {
-    if(mode === "add") {
-        if(activeProject.id) {
-            document.querySelectorAll(".projects ul li a")[activeProject.id].classList.add("active");
-        } else {
-            document.querySelector(".projects ul li a").classList.add("active");
-        }
-    } else if(mode === "remove") {
-        document.querySelectorAll(".projects ul li a")[activeProject.id].classList.remove("active");
-    }
-        
+function styleActiveProject() {
+    document.querySelectorAll(".projects ul li a").forEach(element => 
+        element.classList.remove("active"));
+    if(activeProject.id) {
+        document.querySelectorAll(".projects ul li a")[activeProject.id].classList.add("active");
+    } else {
+        document.querySelector(".projects ul li a").classList.add("active");
+    }   
 }
 
-function styleActiveFilter(mode) {
-    if(mode === "add") {
-        if(activeFilter) {
-            document.querySelector(`.sideContent .filter ul li a[data-filter="${activeFilter}"]`).classList.add("active");
-        } else {
-            document.querySelector(".sideContent .filter ul li a").classList.add("active");
-        }
-    } else if(mode === "remove") {
-        document.querySelector(`.sideContent .filter ul li a[data-filter="${activeFilter}"]`).classList.remove("active");
+function styleActiveFilter() {
+    document.querySelectorAll(".sideContent .filter ul li a").forEach(element => 
+        element.classList.remove("active"));
+    if(activeFilter) {
+        document.querySelector(`.sideContent .filter ul li a[data-filter="${activeFilter}"]`)
+        .classList.add("active");
+    } else {
+        document.querySelector(".sideContent .filter ul li a").classList.add("active");
     }
 }
+
 
 function setInitialFilters() {
     activeProject.project = projects[0];
     activeProject.id = 0;
-    styleActiveProject("add")
+    styleActiveProject();
 
     activeFilter = "active";
-    styleActiveFilter("add");
+    styleActiveFilter();
 }
 
 const filterTasks = (() => {
@@ -160,9 +156,9 @@ const filterTasks = (() => {
         filter.addEventListener("click", e => {
             let filter = e.target.dataset.filter;
             e.preventDefault();
-            styleActiveFilter("remove");
+            styleActiveFilter();
             activeFilter = filter;
-            styleActiveFilter("add");
+            styleActiveFilter();
 
             populateTasks[filter]();
         });
