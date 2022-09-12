@@ -14,15 +14,18 @@ const project = (name) => {
             return tasks;
         }
         const active = () => {
-            return tasks.filter(task => task.complete === false);
+            return tasks.filter(task => !task.complete);
         }
         const today = () => {
 
         }
-        const completed = () => {
+        const thisWeek = () => {
 
         }
-        return { all, active, today, completed }
+        const completed = () => {
+            return tasks.filter(task => task.complete);
+        }
+        return { all, active, today, thisWeek, completed }
     })()
     return { name, tasks, addTask, getTasks };
 };

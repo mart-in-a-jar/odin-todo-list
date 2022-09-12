@@ -14,6 +14,7 @@ let activeProject = {
     project: undefined
 };
 let activeTask;
+let activeFilter;
 
 function setActiveModal(modal) {
     activeModal = modal;
@@ -79,8 +80,8 @@ function addEventListeners() {
 
     document.addEventListener("DOMContentLoaded", () => {
         populateProjects();
-        setInitialActiveProject();
-        populateTasks.all();
+        setInitialFilters();
+        populateTasks.active();
     });
 
     newTask.addEventListener("click", () => {
@@ -115,32 +116,64 @@ function changeProject(e) {
     activeProject.project = projects[e.target.dataset.projectNumber];
     styleActiveProject("add");
 
-    populateTasks.all();
+    populateTasks.active(); // Apply active filter
 }
 
-function styleActiveProject(task) {
-    if(task === "add") {
+function styleActiveProject(mode) {
+    if(mode === "add") {
         if(activeProject.id) {
             document.querySelectorAll(".projects ul li a")[activeProject.id].classList.add("active");
         } else {
             document.querySelector(".projects ul li a").classList.add("active");
         }
-    } else if(task === "remove") {
+    } else if(mode === "remove") {
         document.querySelectorAll(".projects ul li a")[activeProject.id].classList.remove("active");
     }
         
 }
 
-function setInitialActiveProject() {
+function styleActiveFilter(mode) {
+    if(mode === "add") {
+        if(activeFilter) {
+            document.querySelector(`.sideContent .filter ul li a[data-filter="${activeFilter}"]`).classList.add("active");
+        } else {
+            document.querySelector(".sideContent .filter ul li a").classList.add("active");
+        }
+    } else if(mode === "remove") {
+        document.querySelector(`.sideContent .filter ul li a[data-filter="${activeFilter}"]`).classList.remove("active");
+    }
+}
+
+function setInitialFilters() {
     activeProject.project = projects[0];
     activeProject.id = 0;
     styleActiveProject("add")
+
+    activeFilter = "active";
+    styleActiveFilter("add");
 }
+
+const filterTasks = (() => {
+    const filters = document.querySelectorAll(".sideContent .filter ul li a");
+
+    filters.forEach(filter => {
+        filter.addEventListener("click", e => {
+            let filter = e.target.dataset.filter;
+            e.preventDefault();
+            styleActiveFilter("remove");
+            activeFilter = filter;
+            styleActiveFilter("add");
+
+            populateTasks[filter]();
+        });
+    });
+})();
 
 const populateTasks = (() => {
     function writeTasks(tasks) {
         const taskList = document.querySelector(".main .tasks");
         taskList.textContent = "";
+        if(!tasks) return;
         tasks.forEach(task => {
             const taskBox = document.createElement("div");
             taskBox.classList.add("task");
@@ -156,12 +189,25 @@ const populateTasks = (() => {
         taskList.appendChild(taskBox);
         });
     }
-    function all() {
+    function active() {
         let tasks = activeProject.project.getTasks.active();
         writeTasks(tasks);
     }
 
-    return { all }
+    function today() {
+
+    }
+
+    function thisWeek() {
+
+    }
+
+    function completed() {
+        let tasks = activeProject.project.getTasks.completed();
+        writeTasks(tasks);
+    }
+
+    return { active, completed }
 })();
 
 const taskEdit = (() => {
