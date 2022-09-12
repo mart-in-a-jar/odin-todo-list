@@ -13,6 +13,7 @@ let activeProject = {
     id: undefined,
     project: undefined
 };
+let activeTask;
 
 function setActiveModal(modal) {
     activeModal = modal;
@@ -151,7 +152,7 @@ const populateTasks = (() => {
         <div class="buttons">
             <a href=""><i class="fa-solid fa-square-check fa-2xl"></i></a>
         </div>`
-        taskBox.addEventListener("click", taskEdit.show);
+        taskBox.addEventListener("click", e => taskEdit.show(e.target.dataset.taskNumber));
         taskList.appendChild(taskBox);
         });
     }
@@ -165,8 +166,9 @@ const populateTasks = (() => {
 
 const taskEdit = (() => {
 
-    function show() {
-        let task = activeProject.project.tasks[this.dataset.taskNumber];
+    function show(taskNo) {
+        activeTask = taskNo;
+        let task = activeProject.project.tasks[taskNo];
         taskModal.textContent = "";
         taskModal.innerHTML = `<div class="taskCard">
         <div class="task leftSide">
