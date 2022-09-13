@@ -52,42 +52,44 @@ function addEventListeners() {
     });
 
     addProjectModal.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
+        if(e.key === "Enter") {
             addProject(e.target.value);
             populateProjects()
             toggleModal(addProjectModal);
-        } else if (e.key === "Escape") {
+            saveToLocalStorage("projects", projects);
+        } else if(e.key === "Escape") {
             toggleModal(addProjectModal);
         }
     });
 
     addTaskModal.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
+        if(e.key === "Enter") {
             addTask(e.target.value);
             populateTasks.all();
             toggleModal(addTaskModal);
-        } else if (e.key === "Escape") {
+            saveToLocalStorage("projects", projects);
+        } else if(e.key === "Escape") {
             toggleModal(addTaskModal);
         }
     });
 
-    window.addEventListener("keypress", (e) => {
-        // Don't fire if backdrop (ie any modal) is active
-        if (!document.querySelector(".blur.active") && e.code === "KeyN") {
+    window.addEventListener("keyup", (e) => {
+        // New task - Don't fire if backdrop (ie any modal) is active
+        if(!document.querySelector(".blur.active") && e.code === "KeyN") {
             toggleModal(addTaskModal);
-        };
+        } 
+        // Close taskmodal
+        else if(!taskModal.classList.contains("hidden") && e.key === "Escape") {
+            toggleModal(taskModal);
+        }
+
     });
 
     document.addEventListener("DOMContentLoaded", () => {
         populateProjects();
         setInitialFilters();
         populateTasks.active();
-    });
-
-    newTask.addEventListener("click", () => {
-
-    });
-    
+    });    
 }
 
 function populateProjects() {
@@ -256,11 +258,11 @@ const taskEdit = (() => {
         </div>
 </div>`
 
-        const titleInput = document.querySelector(".task.title input");
-        const descriptionInput = document.querySelector(".taskCard textarea");
-        const dateInput = document.querySelector("#taskDueDate");
+        const titleInput = taskModal.querySelector(".task.title input");
+        const descriptionInput = taskModal.querySelector(".taskCard textarea");
+        const dateInput = taskModal.querySelector("#taskDueDate");
 
-        let checkList = document.querySelector(".task.checkList");
+        let checkList = taskModal.querySelector(".task.checkList");
         task.checkList.forEach(item => {
             const wrapper = document.createElement("div");
             wrapper.classList.add("checkListItem");
@@ -291,6 +293,7 @@ const taskEdit = (() => {
 
         titleInput.addEventListener("blur", e => {
             scrollLeft(e.target);
+            task.title = titleInput.value;
         });
         titleInput.addEventListener("focus", e => {
             e.target.selectionStart = e.target.value.length;
@@ -301,12 +304,19 @@ const taskEdit = (() => {
             console.log(e.target.value);
         });
 
+        //
+        // Edit task
+        titleInput.addEventListener("keyup", () => {
+            
+        });
+
         toggleModal(taskModal);
         extendTextArea(descriptionInput);
 
     }
     function complete(task) {
         task.toggle();
+        saveToLocalStorage("projects", projects);
     }
     
     
