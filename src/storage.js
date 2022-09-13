@@ -16,6 +16,10 @@ function retrieveFromLocalStorage() {
         for(let i = 0; i < projects.length; i++) {
             for(let j = 0; j < result[i].tasks.length; j++) {
                 projects[i].addTask(Object.assign(new task({title: "", description: "", dueDate: ""}), result[i].tasks[j]));
+                projects[i].tasks[j].checkList = [];
+                for(let k = 0; k < result[i].tasks[j].checkList.length; k++) {
+                    projects[i].tasks[j].addCheckListItem(result[i].tasks[j].checkList[k].title);
+                }
             }
         }
     }

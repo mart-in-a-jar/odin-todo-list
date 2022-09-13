@@ -325,8 +325,15 @@ const taskEdit = (() => {
         });
 
         prioritySelect.addEventListener("change", () => {
-            task.priority = prioritySelect.value;
+            task.priority = +prioritySelect.value;
             save();
+        });
+
+        checkList.querySelectorAll("input[type=checkbox]").forEach(item => {
+            item.addEventListener("change", e => {
+                task.checkList[e.target.dataset.checkListId].toggle();
+                save();
+            });
         });
 
 
