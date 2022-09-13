@@ -7,5 +7,6 @@
 - endre navn på prosjekt, slette prosjekt
 - custom date picker
 - knapp for å legge til på checklist
+- sortere tasks etter prioritet
 
 - endre checkbox for å fullføre oppgave til checkbox. design som i handlekurven på aliexpress?

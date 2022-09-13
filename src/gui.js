@@ -16,6 +16,10 @@ let activeProject = {
 let activeTask;
 let activeFilter;
 
+function save() {
+    saveToLocalStorage("projects", projects);
+}
+
 function setActiveModal(modal) {
     activeModal = modal;
 }
@@ -56,7 +60,7 @@ function addEventListeners() {
             addProject(e.target.value);
             populateProjects()
             toggleModal(addProjectModal);
-            saveToLocalStorage("projects", projects);
+            save();
         } else if(e.key === "Escape") {
             toggleModal(addProjectModal);
         }
@@ -67,7 +71,7 @@ function addEventListeners() {
             addTask(e.target.value);
             populateTasks.all();
             toggleModal(addTaskModal);
-            saveToLocalStorage("projects", projects);
+            save();
         } else if(e.key === "Escape") {
             toggleModal(addTaskModal);
         }
@@ -80,6 +84,7 @@ function addEventListeners() {
         } 
         // Close taskmodal
         else if(!taskModal.classList.contains("hidden") && e.key === "Escape") {
+            document.activeElement.blur();
             toggleModal(taskModal);
         }
 
@@ -235,6 +240,7 @@ const taskEdit = (() => {
             </div>
             <div class="task checkList">
             </div>
+            <button>+</button>
             <textarea class="task description" placeholder="Beskrivelse">${task.description || ""}</textarea>
         </div>
         <div class="task rightSide">
@@ -246,7 +252,7 @@ const taskEdit = (() => {
                 <label for="taskPriority">Priority</label>
                 <select name="priority" id="taskPriority">
                     <option value="1">1</option>
-                    <option value="2" selected>2</option>
+                    <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
@@ -261,6 +267,7 @@ const taskEdit = (() => {
         const titleInput = taskModal.querySelector(".task.title input");
         const descriptionInput = taskModal.querySelector(".taskCard textarea");
         const dateInput = taskModal.querySelector("#taskDueDate");
+        const prioritySelect = document.querySelector("#taskPriority");
 
         let checkList = taskModal.querySelector(".task.checkList");
         task.checkList.forEach(item => {
@@ -278,6 +285,9 @@ const taskEdit = (() => {
             wrapper.append(box, title);
             checkList.appendChild(wrapper);
         });
+
+        prioritySelect.value = task.priority;
+
         taskModal.querySelector(".task.title a.complete").addEventListener("click", e => {
             taskEdit.complete(task);
             populateTasks[activeFilter]();
@@ -294,21 +304,31 @@ const taskEdit = (() => {
         titleInput.addEventListener("blur", e => {
             scrollLeft(e.target);
             task.title = titleInput.value;
+            save();
+            populateTasks[activeFilter]();
         });
+
         titleInput.addEventListener("focus", e => {
             e.target.selectionStart = e.target.value.length;
         });
 
-
         dateInput.addEventListener("change", (e) => {
-            console.log(e.target.value);
+            task.dueDate = e.target.value;
+            save();
+            populateTasks[activeFilter]();
         });
 
-        //
-        // Edit task
-        titleInput.addEventListener("keyup", () => {
-            
+        descriptionInput.addEventListener("blur", () => {
+            task.description = descriptionInput.value;
+            save();
+            populateTasks[activeFilter]();
         });
+
+        prioritySelect.addEventListener("change", () => {
+            task.priority = prioritySelect.value;
+            save();
+        });
+
 
         toggleModal(taskModal);
         extendTextArea(descriptionInput);
@@ -316,7 +336,7 @@ const taskEdit = (() => {
     }
     function complete(task) {
         task.toggle();
-        saveToLocalStorage("projects", projects);
+        save();
     }
     
     
@@ -339,21 +359,3 @@ function addTask(data) {
 export { addEventListeners }
 
 ////
-// toggleModal(addProjectModal);
-
-document.querySelector("#save").addEventListener("click", () => {
-    saveToLocalStorage("projects", projects);
-    console.log(projects);
-});
-
-document.querySelector("#addTask").addEventListener("click", () => {
-    let no = prompt("Proj. no");
-    projects[no].addTask(new task(
-        {
-        title: "Navn",
-         description: "Noe som må gjøres",
-          dueDate: new Date(2022, 7, 25)
-        }
-        ));
-});
-
