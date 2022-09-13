@@ -179,7 +179,7 @@ const populateTasks = (() => {
             <p>${task.description || ""}</p>
         </article>
         <div class="buttons">
-            <a class="complete" data-task-number="${activeProject.project.tasks.indexOf(task)}" href="">
+            <a class="complete${task.complete ? " done":""}" data-task-number="${activeProject.project.tasks.indexOf(task)}" href="">
             <i class="fa-solid fa-square-check fa-2xl"></i></a>
         </div>`
         taskBox.addEventListener("click", e => taskEdit.show(e.target.dataset.taskNumber));
@@ -225,7 +225,7 @@ const taskEdit = (() => {
         taskModal.innerHTML = `<div class="taskCard">
         <div class="task leftSide">
             <div class="task title">
-                <a class="complete">
+                <a class="complete${task.complete ? " done":""}">
                 <i class="fa-solid fa-square-check fa-2xl"></i>
                 <div class="checkMark"></div>
                 </a>

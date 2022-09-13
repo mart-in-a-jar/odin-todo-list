@@ -293,6 +293,16 @@ a:visited {
     /* color: var(--sidebarcolor); */
 }
 
+.tasks .task .buttons a.done {
+    background-color: #94B49F;
+    color: var(--sidebarcolor);
+}
+
+.tasks .task .buttons a.done:hover {
+    color: var(--headercolor);
+    background-color: initial;
+}
+
 .tasks .task:hover {
     /* outline: 2px solid var(--sidebarcolor); */
     background-color: #ffebd3;
