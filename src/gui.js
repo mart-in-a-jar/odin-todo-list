@@ -188,6 +188,7 @@ const populateTasks = (() => {
     document.querySelectorAll(".task .buttons a.complete").forEach(button => {
         button.addEventListener("click", e => {
             e.preventDefault();
+            e.stopPropagation(); // So eventlistener on taskBox does not trigger, opening the task
             let task = activeProject.project.tasks[e.target.dataset.taskNumber];
             taskEdit.complete(task);
             populateTasks[activeFilter]();
