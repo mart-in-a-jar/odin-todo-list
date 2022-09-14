@@ -394,6 +394,12 @@ a:visited {
     overflow: hidden;
 }
 
+.taskCard .checkList {
+    max-height: 123px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
 .taskCard .task.checkList .checkListItem {
     display: flex; 
 }
@@ -402,10 +408,21 @@ a:visited {
     width: 60%;
 }
 
+.taskCard .task.checkList .checkListItem input[type=checkbox] {
+    margin-left: 0;
+}
+
+.checkListWrapper .addCheckListItem {
+    margin-top: 5px;
+    display: inline-block;
+    font-size: 1.2rem;
+}
+
 .taskCard .task.title a.complete:hover,
 .taskCard .checkListItem > *:hover,
 .taskCard .task.priority select:hover,
-input[type=date] {
+input[type=date],
+.checkListWrapper .addCheckListItem {
     cursor: pointer;
 }
 

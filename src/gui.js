@@ -238,9 +238,12 @@ const taskEdit = (() => {
                 </a>
                 <input type="text" value="${task.title}">
             </div>
-            <div class="task checkList">
+            <div class="checkListWrapper">
+                <div class="task checkList">
+                </div>
+                <a class="addCheckListItem"><i class="fa-solid fa-plus"></i></a>
+                <input type="text" class="addCheckListInput hidden"></input>
             </div>
-            <button>+</button>
             <textarea class="task description" placeholder="Beskrivelse">${task.description || ""}</textarea>
         </div>
         <div class="task rightSide">
@@ -268,6 +271,8 @@ const taskEdit = (() => {
         const descriptionInput = taskModal.querySelector(".taskCard textarea");
         const dateInput = taskModal.querySelector("#taskDueDate");
         const prioritySelect = document.querySelector("#taskPriority");
+        let addCheckListInput = document.querySelector(".addCheckListInput");
+        const addCheckListItem = document.querySelector(".addCheckListItem");
 
         let checkList = taskModal.querySelector(".task.checkList");
         task.checkList.forEach(item => {
@@ -285,6 +290,10 @@ const taskEdit = (() => {
             wrapper.append(box, title);
             checkList.appendChild(wrapper);
         });
+
+        if(task.checkList.length < 1) {
+            checkList.textContent = "Add work items";
+        }
 
         prioritySelect.value = task.priority;
 
@@ -336,6 +345,41 @@ const taskEdit = (() => {
             });
         });
 
+        addCheckListItem.addEventListener("click", () => {
+            addCheckListInput.classList.remove("hidden");
+            addCheckListInput.focus();
+        });
+
+        addCheckListInput.addEventListener("blur", () => {
+            if(addCheckListInput.value.trim()) {
+                newCheckListItem(task);
+            } else {
+                addCheckListInput.value = "";
+            }
+            addCheckListInput.classList.add("hidden");
+        });
+
+        addCheckListInput.addEventListener("keyup", e => {
+            if(e.key === "Enter") {
+                newCheckListItem(task);
+                addCheckListInput.focus();
+            } else if(e.key === "Escape") {
+                addCheckListInput.value = "";
+                addCheckListInput.classList.add("hidden");
+                e.stopPropagation();
+            }
+        });
+
+        
+        function newCheckListItem(task) {
+            task.addCheckListItem(addCheckListInput.value);
+            save();
+            taskEdit.show(activeTask);
+            toggleModal(taskModal);
+            extendTextArea(descriptionInput);
+            addCheckListInput = document.querySelector(".addCheckListInput");
+            addCheckListInput.classList.remove("hidden");
+        }
 
         toggleModal(taskModal);
         extendTextArea(descriptionInput);
@@ -345,6 +389,10 @@ const taskEdit = (() => {
         task.toggle();
         save();
     }
+
+
+
+
     
     
     return { show, complete }
