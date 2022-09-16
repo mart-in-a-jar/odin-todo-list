@@ -351,6 +351,7 @@ a:visited {
 
 .task.leftSide {
     align-content: start;
+    overflow: hidden;
 }
 
 .task.rightSide {
@@ -420,14 +421,16 @@ a:visited {
     max-height: 123px;
     overflow-y: scroll;
     scrollbar-width: thin;
+    width: 320px;
 }
 
 .taskCard .task.checkList .checkListItem {
-    display: flex; 
+    display: flex;
 }
 
 .taskCard .task.checkList .checkListItem label {
-    width: 60%;
+    width: 100%;
+    overflow: hidden;
 }
 
 .taskCard .task.checkList .checkListItem input[type=checkbox] {
@@ -442,6 +445,15 @@ a:visited {
 
 .checkListWrapper .addCheckListItem:hover {
     transform: scale(1.1);
+}
+
+.checkListItem .delete {
+    color: rgba(0, 0, 0, 0.219);
+    margin: 0px 10px;
+}
+
+.checkListItem .delete:hover {
+    color: black;
 }
 
 .taskCard .task.title a.complete:hover,

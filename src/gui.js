@@ -188,7 +188,7 @@ const filterTasks = (() => {
             styleActiveFilter();
             activeFilter = filter;
             styleActiveFilter();
-
+            searchField.value = "";
             populateTasks[filter]();
         });
     });
@@ -316,7 +316,13 @@ const taskEdit = (() => {
             const title = document.createElement("label");
             title.htmlFor = box.id;
             title.textContent = item.title;
-            wrapper.append(box, title);
+            const deleteButton = document.createElement("a");
+            deleteButton.classList.add("delete");
+            deleteButton.dataset.checkListId = taskId;
+            const deleteIcon = document.createElement("i");
+            deleteIcon.classList.add("fa-solid", "fa-trash");
+            deleteButton.appendChild(deleteIcon);
+            wrapper.append(box, title, deleteButton);
             checkList.appendChild(wrapper);
         });
 
@@ -372,6 +378,16 @@ const taskEdit = (() => {
             item.addEventListener("change", e => {
                 task.checkList[e.target.dataset.checkListId].toggle();
                 save();
+            });
+        });
+
+        checkList.querySelectorAll(".delete").forEach(item => {
+            item.addEventListener("click", () => {
+                task.checkList.splice([item.dataset.checkListId], 1);
+                save();
+                taskEdit.show(activeTask);
+                toggleModal(taskModal);
+                extendTextArea(descriptionInput);
             });
         });
 
