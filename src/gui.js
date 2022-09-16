@@ -1,6 +1,5 @@
 import { addProject, projects, task } from "./modules";
 import { saveToLocalStorage } from "./storage";
-
 const addProjectButton = document.querySelector("#addProject");
 const addProjectModal = document.querySelector(".addProjectModal");
 const addTaskModal = document.querySelector(".addTaskModal");
@@ -69,7 +68,7 @@ function addEventListeners() {
     addTaskModal.addEventListener("keydown", (e) => {
         if(e.key === "Enter") {
             addTask(e.target.value);
-            populateTasks.all();
+            populateTasks.active();
             toggleModal(addTaskModal);
             save();
         } else if(e.key === "Escape") {
@@ -208,11 +207,13 @@ const populateTasks = (() => {
     }
 
     function today() {
-
+        let tasks = activeProject.project.getTasks.today();
+        writeTasks(tasks);
     }
 
     function thisWeek() {
-
+        let tasks = activeProject.project.getTasks.thisWeek();
+        writeTasks(tasks);
     }
 
     function completed() {
@@ -220,7 +221,7 @@ const populateTasks = (() => {
         writeTasks(tasks);
     }
 
-    return { active, completed }
+    return { active, completed, today, thisWeek }
 })();
 
 const taskEdit = (() => {
@@ -369,7 +370,6 @@ const taskEdit = (() => {
                 e.stopPropagation();
             }
         });
-
         
         function newCheckListItem(task) {
             task.addCheckListItem(addCheckListInput.value);

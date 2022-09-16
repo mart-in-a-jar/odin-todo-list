@@ -418,6 +418,10 @@ a:visited {
     font-size: 1.2rem;
 }
 
+.checkListWrapper .addCheckListItem:hover {
+    transform: scale(1.1);
+}
+
 .taskCard .task.title a.complete:hover,
 .taskCard .checkListItem > *:hover,
 .taskCard .task.priority select:hover,

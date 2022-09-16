@@ -1,6 +1,4 @@
 import "./style.css";
-import { format } from "date-fns";
-import { addProject, task, projects } from "./modules";
 import { addEventListeners } from "./gui";
 import { retrieveFromLocalStorage } from "./storage";
 import "@fortawesome/fontawesome-pro/js/all";

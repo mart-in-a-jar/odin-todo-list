@@ -1,3 +1,5 @@
+import { isToday, isThisWeek } from "date-fns";
+
 const projects = [];
 
 function addProject(name) {
@@ -17,10 +19,10 @@ const project = (name) => {
             return tasks.filter(task => !task.complete);
         }
         const today = () => {
-
+            return getTasks.active().filter(task => isToday(new Date(task.dueDate)))
         }
         const thisWeek = () => {
-
+            return getTasks.active().filter(task => isThisWeek(new Date(task.dueDate), { weekStartsOn: 1 }));
         }
         const completed = () => {
             return tasks.filter(task => task.complete);
