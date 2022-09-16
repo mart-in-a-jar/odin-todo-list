@@ -125,7 +125,9 @@ function populateProjects() {
     projects.forEach(project => {
         const listItem = document.createElement("li");
         const projectItem = document.createElement("a");
-        listItem.appendChild(projectItem);
+        const deleteProjectButton = document.createElement("a");
+        deleteProjectButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+        listItem.append(projectItem);
         projectList.appendChild(listItem);
         projectItem.textContent = project.name;
         projectItem.href = ""; 
@@ -290,8 +292,8 @@ const taskEdit = (() => {
                     <option value="5">5</option>
                 </select>
             </div>
-            <div class="task notes">
-                <button>Notes</button>
+            <div class="task delete">
+                <button id="deleteTask">Delete</button>
             </div>
         </div>
 </div>`
@@ -302,6 +304,7 @@ const taskEdit = (() => {
         const prioritySelect = document.querySelector("#taskPriority");
         let addCheckListInput = document.querySelector(".addCheckListInput");
         const addCheckListItem = document.querySelector(".addCheckListItem");
+        const deleteTaskButton = document.querySelector("#deleteTask");
 
         let checkList = taskModal.querySelector(".task.checkList");
         task.checkList.forEach(item => {
@@ -389,6 +392,15 @@ const taskEdit = (() => {
                 toggleModal(taskModal);
                 extendTextArea(descriptionInput);
             });
+        });
+
+        deleteTaskButton.addEventListener("click", () => {
+            activeProject.project.tasks.splice(activeTask, 1);
+            save();
+            toggleModal(taskModal);
+            setTimeout(() => {
+                populateTasks[activeFilter]();
+            }, 200);
         });
 
         addCheckListItem.addEventListener("click", () => {

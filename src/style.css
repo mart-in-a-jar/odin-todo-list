@@ -387,7 +387,7 @@ a:visited {
     grid-column: 2;
 }
 
-.taskCard .task.notes {
+.taskCard .task.delete {
     grid-column: 2;
     place-self: end;
 }
@@ -511,17 +511,17 @@ input[type=date],
     flex-direction: column;
 }
 
-.task.notes button {
+.task.delete button {
     padding: 7px 12px;
-    background-color: var(--sidebarcolor);
+    background-color: #e3655c;
     color: white;
     border: none;
     border-radius: 10px;
 }
 
-.task.notes button:hover {
+.task.delete button:hover {
     cursor: pointer;
-    outline: 2px solid var(--headercolor);
+    outline: 2px solid #c35354;
 }
 
 .taskCard .task.priority select,
