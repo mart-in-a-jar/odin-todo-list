@@ -30,7 +30,7 @@ const project = (name) => {
             return tasks.filter(task => task.complete);
         }
         const search = (string) => {
-            return tasks.filter(task => task.title.includes(string));
+            return tasks.filter(task => task.title.toLowerCase().includes(string.toLowerCase().trim()));
         }
         return { all, active, today, thisWeek, completed, search }
     })()

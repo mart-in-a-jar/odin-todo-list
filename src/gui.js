@@ -89,7 +89,7 @@ function addEventListeners() {
         if(e.key === "Escape") {
             searchField.value = "";
             searchField.blur();
-        } else populateTasks.search(searchField.value);
+        } else populateTasks.search();
     });
 
     clearSearchButton.addEventListener("click", e => {
@@ -101,7 +101,7 @@ function addEventListeners() {
     window.addEventListener("keyup", (e) => {
         // New task/search - Don't fire if backdrop (ie any modal) is active
         if(!document.querySelector(".blur.active")) {
-            if(e.code === "KeyN") toggleModal(addTaskModal);
+            if(e.code === "KeyN" && document.activeElement != searchField) toggleModal(addTaskModal);
             else if(e.code === "KeyS") searchField.focus();
         }
         // Close taskmodal
@@ -115,7 +115,7 @@ function addEventListeners() {
     document.addEventListener("DOMContentLoaded", () => {
         populateProjects();
         setInitialFilters();
-        populateTasks.active();
+        populateTasks[searchField.value ? "search" : "active"]();
     });    
 }
 
@@ -244,8 +244,8 @@ const populateTasks = (() => {
         writeTasks(tasks);
     }
 
-    function search(string) {
-        let tasks = activeProject.project.getTasks.search(string);
+    function search() {
+        let tasks = activeProject.project.getTasks.search(searchField.value);
         writeTasks(tasks);
     }
 
