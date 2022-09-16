@@ -21,15 +21,18 @@ const project = (name) => {
             });
         }
         const today = () => {
-            return getTasks.active().filter(task => isToday(new Date(task.dueDate)))
+            return active().filter(task => isToday(new Date(task.dueDate)))
         }
         const thisWeek = () => {
-            return getTasks.active().filter(task => isThisWeek(new Date(task.dueDate), { weekStartsOn: 1 }));
+            return active().filter(task => isThisWeek(new Date(task.dueDate), { weekStartsOn: 1 }));
         }
         const completed = () => {
             return tasks.filter(task => task.complete);
         }
-        return { all, active, today, thisWeek, completed }
+        const search = (string) => {
+            return tasks.filter(task => task.title.includes(string));
+        }
+        return { all, active, today, thisWeek, completed, search }
     })()
     return { name, tasks, addTask, getTasks };
 };

@@ -6,6 +6,8 @@ const addTaskModal = document.querySelector(".addTaskModal");
 const backDrop = document.querySelector(".blur");
 const newTask = document.querySelector("#newTask");
 const taskModal = document.querySelector(".taskModal");
+const searchField = document.querySelector("#searchField");
+const clearSearchButton = document.querySelector(".search .cancel");
 
 let activeModal;
 let activeProject = {
@@ -68,7 +70,7 @@ function addEventListeners() {
     addTaskModal.addEventListener("keydown", (e) => {
         if(e.key === "Enter") {
             addTask(e.target.value);
-            populateTasks.active();
+            populateTasks[activeFilter]();
             toggleModal(addTaskModal);
             save();
         } else if(e.key === "Escape") {
@@ -76,11 +78,32 @@ function addEventListeners() {
         }
     });
 
+    searchField.addEventListener("blur", () => {
+        if(!searchField.value.trim()) {
+            searchField.value = "";
+            populateTasks[activeFilter]();
+        }
+    });
+
+    searchField.addEventListener("keyup", e => {
+        if(e.key === "Escape") {
+            searchField.value = "";
+            searchField.blur();
+        } else populateTasks.search(searchField.value);
+    });
+
+    clearSearchButton.addEventListener("click", e => {
+        e.preventDefault();
+        searchField.value = "";
+        populateTasks[activeFilter]();
+    });
+
     window.addEventListener("keyup", (e) => {
-        // New task - Don't fire if backdrop (ie any modal) is active
-        if(!document.querySelector(".blur.active") && e.code === "KeyN") {
-            toggleModal(addTaskModal);
-        } 
+        // New task/search - Don't fire if backdrop (ie any modal) is active
+        if(!document.querySelector(".blur.active")) {
+            if(e.code === "KeyN") toggleModal(addTaskModal);
+            else if(e.code === "KeyS") searchField.focus();
+        }
         // Close taskmodal
         else if(!taskModal.classList.contains("hidden") && e.key === "Escape") {
             document.activeElement.blur();
@@ -221,7 +244,12 @@ const populateTasks = (() => {
         writeTasks(tasks);
     }
 
-    return { active, completed, today, thisWeek }
+    function search(string) {
+        let tasks = activeProject.project.getTasks.search(string);
+        writeTasks(tasks);
+    }
+
+    return { active, completed, today, thisWeek, search }
 })();
 
 const taskEdit = (() => {
