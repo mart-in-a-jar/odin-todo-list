@@ -3,11 +3,11 @@
 // - liste ut tasks fra aktivt prosjekt
 // - modal for å se på/redigere tasks
 // - legge til nye tasks på aktivt prosjekt
-- filter
+// - filter
 - endre navn på prosjekt, slette prosjekt
 - custom date picker
-- knapp for å legge til på checklist
-- sortere tasks etter prioritet
+// - knapp for å legge til på checklist
+// - sortere tasks etter prioritet
 - sletting av checklistitems?
 
 - endre checkbox for å fullføre oppgave til checkbox. design som i handlekurven på aliexpress?

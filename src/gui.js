@@ -337,6 +337,7 @@ const taskEdit = (() => {
         prioritySelect.addEventListener("change", () => {
             task.priority = +prioritySelect.value;
             save();
+            populateTasks[activeFilter]();
         });
 
         checkList.querySelectorAll("input[type=checkbox]").forEach(item => {

@@ -16,7 +16,9 @@ const project = (name) => {
             return tasks;
         }
         const active = () => {
-            return tasks.filter(task => !task.complete);
+            return tasks.filter(task => !task.complete).sort((a, b) => {
+                return a.priority < b.priority ? -1 : 1; 
+            });
         }
         const today = () => {
             return getTasks.active().filter(task => isToday(new Date(task.dueDate)))
