@@ -209,8 +209,34 @@ a:visited {
     margin-top: 30px;
 }
 
-.sidebar li a:hover {
+.sidebar ul li {
+    position: relative;
+}
+
+.sidebar .projects li:hover,
+.sidebar .filter li:hover {
     background-color: #fbe8cc57;
+}
+
+.sidebar ul li .delete {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: transparent;
+}
+
+.sidebar ul li .delete:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    color: inherit;
+}
+
+.sidebar li a:hover ~ .delete {
+    color: inherit;
+    opacity: .7;
+}
+
+.sidebar li a:hover {
     border-left: var(--border_size_for_hover) solid var(--bgcolor);
     padding-left: calc(var(--padding_left_for_list_elements) - var(--border_size_for_hover));
 }

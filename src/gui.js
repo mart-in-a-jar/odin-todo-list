@@ -125,13 +125,15 @@ function populateProjects() {
     projects.forEach(project => {
         const listItem = document.createElement("li");
         const projectItem = document.createElement("a");
-        const deleteProjectButton = document.createElement("a");
-        deleteProjectButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
-        listItem.append(projectItem);
-        projectList.appendChild(listItem);
+        const deleteProjectButton = document.createElement("div");
+        deleteProjectButton.classList.add("delete");
+        deleteProjectButton.innerHTML = `<i class="fa-solid fa-pen"></i>`;
         projectItem.textContent = project.name;
         projectItem.href = ""; 
         projectItem.dataset.projectNumber = projects.indexOf(project);
+        deleteProjectButton.dataset.projectNumber = projects.indexOf(project);
+        listItem.append(projectItem, deleteProjectButton);
+        projectList.appendChild(listItem);
         
         
         projectItem.addEventListener("click", changeProject)
