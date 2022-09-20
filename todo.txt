@@ -9,5 +9,6 @@
 // - knapp for å legge til på checklist
 // - sortere tasks etter prioritet
 // - sletting av checklistitems?
+- legge til favicon
 
 - endre checkbox for å fullføre oppgave til checkbox. design som i handlekurven på aliexpress?

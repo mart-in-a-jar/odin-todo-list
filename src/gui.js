@@ -40,6 +40,7 @@ function toggleModal(modal) {
         backDrop.classList.remove("active");
         if (modal.nodeName === "INPUT") {
             modal.value = "";
+            modal.blur();
         }
     }
 }
