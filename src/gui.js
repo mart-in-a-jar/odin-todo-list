@@ -8,6 +8,7 @@ const newTask = document.querySelector("#newTask");
 const taskModal = document.querySelector(".taskModal");
 const searchField = document.querySelector("#searchField");
 const clearSearchButton = document.querySelector(".search .cancel");
+const deleteProjectModal = document.querySelector(".delete.modal");
 
 let activeModal;
 let activeProject = {
@@ -100,14 +101,18 @@ function addEventListeners() {
 
     window.addEventListener("keyup", (e) => {
         // New task/search - Don't fire if backdrop (ie any modal) is active
-        if(!document.querySelector(".blur.active")) {
+        if(!document.querySelector(".blur.active") && !document.querySelector("input:focus")) {
             if(e.code === "KeyN" && document.activeElement != searchField) toggleModal(addTaskModal);
             else if(e.code === "KeyS") searchField.focus();
         }
         // Close taskmodal
-        else if(!taskModal.classList.contains("hidden") && e.key === "Escape") {
-            document.activeElement.blur();
-            toggleModal(taskModal);
+        else if(e.key === "Escape") {
+            if(!taskModal.classList.contains("hidden")) {
+                document.activeElement.blur();
+                toggleModal(taskModal);
+            } else if(!deleteProjectModal.classList.contains("hidden")) {
+                toggleModal(deleteProjectModal);
+            }
         }
 
     });
@@ -125,18 +130,24 @@ function populateProjects() {
     projects.forEach(project => {
         const listItem = document.createElement("li");
         const projectItem = document.createElement("a");
+        const editProjectButton = document.createElement("div");
         const deleteProjectButton = document.createElement("div");
+        const editName = document.createElement("input");
+        editProjectButton.classList.add("edit");
+        editProjectButton.innerHTML = `<i class="fa-solid fa-pen"></i>`;
+        deleteProjectButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
         deleteProjectButton.classList.add("delete");
-        deleteProjectButton.innerHTML = `<i class="fa-solid fa-pen"></i>`;
         projectItem.textContent = project.name;
         projectItem.href = ""; 
         projectItem.dataset.projectNumber = projects.indexOf(project);
+        editProjectButton.dataset.projectNumber = projects.indexOf(project);
         deleteProjectButton.dataset.projectNumber = projects.indexOf(project);
-        listItem.append(projectItem, deleteProjectButton);
+        listItem.append(projectItem, editName, deleteProjectButton, editProjectButton);
         projectList.appendChild(listItem);
         
-        
-        projectItem.addEventListener("click", changeProject)
+        editProjectButton.addEventListener("click", projectEdit);
+        projectItem.addEventListener("click", changeProject);
+        deleteProjectButton.addEventListener("click", deleteProject);
     });
     styleActiveProject();
 }
@@ -149,6 +160,75 @@ function changeProject(e) {
     styleActiveProject();
 
     populateTasks[activeFilter]();
+}
+
+function deleteProject(e) {
+    const projectNumber = e.target.dataset.projectNumber;
+    deleteProjectModal.textContent = "";
+    const message = document.createElement("div");
+    message.innerHTML = `Are you sure you wish to delete <span class="projectName">
+    ${projects[projectNumber].name}</span>?`;
+    message.classList.add("message");
+    const confirmButton = document.createElement("button");
+    confirmButton.textContent = "Delete";
+
+    confirmButton.addEventListener("click", () => {
+        projects.splice(projectNumber, 1);
+        save();
+        toggleModal(deleteProjectModal);
+        setInitialFilters();
+        populateProjects();
+        populateTasks[activeFilter]();
+
+    });
+
+    deleteProjectModal.append(message, confirmButton);
+
+    toggleModal(deleteProjectModal);
+    document.querySelector(".sidebar .projects li input.active").classList.remove("active");
+    document.querySelector(".sidebar .projects li .delete.active").classList.remove("active");
+
+    
+}
+
+
+function projectEdit(e) {
+    const projectNumber = e.target.dataset.projectNumber;
+    const projectName = document.querySelector(`.sidebar .projects [data-project-number = "${projectNumber}"]`);
+    const nameInput = document.querySelectorAll(`.sidebar .projects ul li input`)[projectNumber];
+    const deleteButton = document.querySelectorAll(`.sidebar .projects ul li .delete`)[projectNumber];
+    const newNameInput = nameInput.cloneNode();
+    nameInput.parentNode.replaceChild(newNameInput, nameInput);
+    newNameInput.value = projectName.textContent;
+    newNameInput.classList.add("active");
+    newNameInput.focus();
+    newNameInput.selectionStart = newNameInput.value.length;
+    deleteButton.classList.add("active");
+
+    function changeName() {
+        newNameInput.classList.remove("active");
+        deleteButton.classList.remove("active");
+        if(newNameInput.value != projectName.textContent) {
+            projects[projectNumber].name = newNameInput.value.trim();
+            save();
+            projectName.textContent = newNameInput.value.trim();
+        }
+    }
+
+    newNameInput.addEventListener("keyup", e => {
+        if(e.key === "Enter") {
+            changeName();
+        } else if(e.key === "Escape") {
+            newNameInput.value = projectName.textContent;
+            newNameInput.blur();
+        }
+    });
+    newNameInput.addEventListener("blur", () => {
+        if(!deleteButton.matches(":hover")){
+            changeName();
+        }
+    });
+
 }
 
 function styleActiveProject() {
@@ -171,7 +251,6 @@ function styleActiveFilter() {
         document.querySelector(".sideContent .filter ul li a").classList.add("active");
     }
 }
-
 
 function setInitialFilters() {
     activeProject.project = projects[0];
