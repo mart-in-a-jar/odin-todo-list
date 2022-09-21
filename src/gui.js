@@ -373,7 +373,7 @@ const taskEdit = (() => {
         <div class="task rightSide">
             <div class="task date">
                 <label for="taskDueDate">Due date</label>
-                <input type="date" name="dueDate" id="taskDueDate" value="${task.dueDate}" required>
+                <input type="date" name="dueDate" id="taskDueDate" value="${task.dueDate || ""}" required>
             </div>
             <div class="task priority">
                 <label for="taskPriority">Priority</label>
