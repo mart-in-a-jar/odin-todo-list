@@ -70,7 +70,7 @@ header .search {
 }
 
 #searchField {
-    background: url(../dist/img/magnifying-glass-solid.svg);
+    background: url(./img/magnifying-glass-solid.svg);
     background-repeat: no-repeat;
     background-position: 10px;
     background-color: var(--bgcolor);
