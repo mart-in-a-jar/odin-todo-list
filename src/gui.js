@@ -64,6 +64,7 @@ function addEventListeners() {
             populateProjects()
             toggleModal(addProjectModal);
             save();
+            changeProject(null, document.querySelectorAll(".projects ul li .projectName")[projects.length - 1]);
         } else if(e.key === "Escape") {
             toggleModal(addProjectModal);
         }
@@ -154,11 +155,15 @@ function populateProjects() {
     styleActiveProject();
 }
 
-function changeProject(e) {
-    e.preventDefault();
-    
-    activeProject.id = e.target.dataset.projectNumber;
-    activeProject.project = projects[e.target.dataset.projectNumber];
+function changeProject(e, ele) {
+    if(ele) {
+        activeProject.id = ele.dataset.projectNumber;
+        activeProject.project = projects[ele.dataset.projectNumber];
+    } else {
+        e.preventDefault();   
+        activeProject.id = e.target.dataset.projectNumber;
+        activeProject.project = projects[e.target.dataset.projectNumber];
+    }
     styleActiveProject();
 
     populateTasks[activeFilter]();
