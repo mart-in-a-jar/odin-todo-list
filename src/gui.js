@@ -59,8 +59,8 @@ function addEventListeners() {
     });
 
     addProjectModal.addEventListener("keydown", (e) => {
-        if(e.key === "Enter") {
-            addProject(e.target.value);
+        if(e.key === "Enter" && addProjectModal.value.trim()) {
+            addProject(addProjectModal.value.trim());
             populateProjects()
             toggleModal(addProjectModal);
             save();
@@ -70,8 +70,8 @@ function addEventListeners() {
     });
 
     addTaskModal.addEventListener("keydown", (e) => {
-        if(e.key === "Enter") {
-            addTask(e.target.value);
+        if(e.key === "Enter" && addTaskModal.value.trim()) {
+            addTask(addTaskModal.value.trim());
             populateTasks[activeFilter]();
             toggleModal(addTaskModal);
             save();
@@ -432,9 +432,13 @@ const taskEdit = (() => {
 
         titleInput.addEventListener("blur", e => {
             scrollLeft(e.target);
-            task.title = titleInput.value;
-            save();
-            populateTasks[activeFilter]();
+            if(titleInput.value.trim()) {
+                task.title = titleInput.value.trim();
+                save();
+                populateTasks[activeFilter]();
+            } else {
+                titleInput.value = task.title;
+            }
         });
 
         titleInput.addEventListener("focus", e => {
@@ -448,7 +452,7 @@ const taskEdit = (() => {
         });
 
         descriptionInput.addEventListener("blur", () => {
-            task.description = descriptionInput.value;
+            task.description = descriptionInput.value.trim();
             save();
             populateTasks[activeFilter]();
         });
@@ -490,19 +494,28 @@ const taskEdit = (() => {
             addCheckListInput.focus();
         });
 
+        let enterBlurCheck = false;
+
         addCheckListInput.addEventListener("blur", () => {
-            if(addCheckListInput.value.trim()) {
-                newCheckListItem(task);
+            if (enterBlurCheck) {
+                enterBlurCheck = false;
             } else {
-                addCheckListInput.value = "";
+                if(addCheckListInput.value.trim()) {
+                    newCheckListItem(task);
+                } else {
+                    addCheckListInput.value = "";
+                }
+                addCheckListInput.classList.add("hidden");
             }
-            addCheckListInput.classList.add("hidden");
         });
 
         addCheckListInput.addEventListener("keyup", e => {
             if(e.key === "Enter") {
-                newCheckListItem(task);
-                addCheckListInput.focus();
+                if(addCheckListInput.value.trim()) {
+                    enterBlurCheck = true;
+                    newCheckListItem(task);
+                    addCheckListInput.focus();
+                }
             } else if(e.key === "Escape") {
                 addCheckListInput.value = "";
                 addCheckListInput.classList.add("hidden");
@@ -511,7 +524,7 @@ const taskEdit = (() => {
         });
         
         function newCheckListItem(task) {
-            task.addCheckListItem(addCheckListInput.value);
+            task.addCheckListItem(addCheckListInput.value.trim());
             save();
             taskEdit.show(activeTask);
             toggleModal(taskModal);
@@ -551,5 +564,3 @@ function addTask(data) {
 }
 
 export { addEventListeners }
-
-////

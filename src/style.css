@@ -124,14 +124,15 @@ a:visited {
 
 .modals > * {
     position: fixed;
-    top: 40%;
+    top: 20%;
     left: 50%;
     margin: 0;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     z-index: 1;
 }
 
 .modals > input {
+    top: 40%;
     width: 320px;
     height: 60px;
     text-indent: 10px;
@@ -520,7 +521,7 @@ a:visited {
 }
 
 .checkListItem .delete:hover {
-    color: black;
+    color: #e3655c;
 }
 
 .taskCard .task.title a.complete:hover,
