@@ -139,7 +139,8 @@ function populateProjects() {
         deleteProjectButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
         deleteProjectButton.classList.add("delete");
         projectItem.textContent = project.name;
-        projectItem.href = ""; 
+        projectItem.href = "";
+        projectItem.classList.add("projectName");
         projectItem.dataset.projectNumber = projects.indexOf(project);
         editProjectButton.dataset.projectNumber = projects.indexOf(project);
         deleteProjectButton.dataset.projectNumber = projects.indexOf(project);
@@ -175,6 +176,9 @@ function deleteProject(e) {
 
     confirmButton.addEventListener("click", () => {
         projects.splice(projectNumber, 1);
+        if(projects.length < 1) {
+            addProject("Default project");
+        }
         save();
         toggleModal(deleteProjectModal);
         setInitialFilters();

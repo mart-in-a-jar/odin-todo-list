@@ -6,7 +6,7 @@ function saveToLocalStorage(name, object) {
 
 function retrieveFromLocalStorage() {
     let result = JSON.parse(localStorage.getItem("projects"));
-    if(!result) {
+    if(!result || result.length < 1) {
         addProject("Default project");
         return;
     } else {
