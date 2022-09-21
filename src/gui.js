@@ -184,8 +184,10 @@ function deleteProject(e) {
     });
 
     deleteProjectModal.append(message, confirmButton);
-
+    
+    
     toggleModal(deleteProjectModal);
+    confirmButton.focus();
     document.querySelector(".sidebar .projects li input.active").classList.remove("active");
     document.querySelector(".sidebar .projects li .delete.active").classList.remove("active");
 
