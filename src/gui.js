@@ -9,11 +9,13 @@ const taskModal = document.querySelector(".taskModal");
 const searchField = document.querySelector("#searchField");
 const clearSearchButton = document.querySelector(".search .cancel");
 const deleteProjectModal = document.querySelector(".delete.modal");
+const menuButton = document.querySelector(".open-menu");
+const sidebar = document.querySelector(".sidebar");
 
 let activeModal;
 let activeProject = {
     id: undefined,
-    project: undefined
+    project: undefined,
 };
 let activeTask;
 let activeFilter;
@@ -52,84 +54,96 @@ function addEventListeners() {
 
     newTask.addEventListener("click", () => {
         toggleModal(addTaskModal);
-    })
+    });
 
     backDrop.addEventListener("click", () => {
         toggleModal(activeModal);
     });
 
     addProjectModal.addEventListener("keydown", (e) => {
-        if(e.key === "Enter" && addProjectModal.value.trim()) {
+        if (e.key === "Enter" && addProjectModal.value.trim()) {
             addProject(addProjectModal.value.trim());
-            populateProjects()
+            populateProjects();
             toggleModal(addProjectModal);
             save();
-            changeProject(null, document.querySelectorAll(".projects ul li .projectName")[projects.length - 1]);
-        } else if(e.key === "Escape") {
+            changeProject(
+                null,
+                document.querySelectorAll(".projects ul li .projectName")[
+                    projects.length - 1
+                ]
+            );
+        } else if (e.key === "Escape") {
             toggleModal(addProjectModal);
         }
     });
 
     addTaskModal.addEventListener("keydown", (e) => {
-        if(e.key === "Enter" && addTaskModal.value.trim()) {
+        if (e.key === "Enter" && addTaskModal.value.trim()) {
             addTask(addTaskModal.value.trim());
             populateTasks[activeFilter]();
             toggleModal(addTaskModal);
             save();
-        } else if(e.key === "Escape") {
+        } else if (e.key === "Escape") {
             toggleModal(addTaskModal);
         }
     });
 
     searchField.addEventListener("blur", () => {
-        if(!searchField.value.trim()) {
+        if (!searchField.value.trim()) {
             searchField.value = "";
             populateTasks[activeFilter]();
         }
     });
 
-    searchField.addEventListener("keyup", e => {
-        if(e.key === "Escape") {
+    searchField.addEventListener("keyup", (e) => {
+        if (e.key === "Escape") {
             searchField.value = "";
             searchField.blur();
         } else populateTasks.search();
     });
 
-    clearSearchButton.addEventListener("click", e => {
+    clearSearchButton.addEventListener("click", (e) => {
         e.preventDefault();
         searchField.value = "";
         populateTasks[activeFilter]();
     });
 
+    menuButton.addEventListener("click", () => {
+        menu.toggle(sidebar);
+    });
+
     window.addEventListener("keyup", (e) => {
         // New task/search - Don't fire if backdrop (ie any modal) is active
-        if(!document.querySelector(".blur.active") && !document.querySelector("input:focus")) {
-            if(e.code === "KeyN" && document.activeElement != searchField) toggleModal(addTaskModal);
-            else if(e.code === "KeyS") searchField.focus();
+        if (
+            !document.querySelector(".blur.active") &&
+            !document.querySelector("input:focus")
+        ) {
+            if (e.code === "KeyN" && document.activeElement != searchField)
+                toggleModal(addTaskModal);
+            else if (e.code === "KeyS") searchField.focus();
         }
         // Close taskmodal
-        else if(e.key === "Escape") {
-            if(!taskModal.classList.contains("hidden")) {
+        else if (e.key === "Escape") {
+            if (!taskModal.classList.contains("hidden")) {
                 document.activeElement.blur();
                 toggleModal(taskModal);
-            } else if(!deleteProjectModal.classList.contains("hidden")) {
+            } else if (!deleteProjectModal.classList.contains("hidden")) {
                 toggleModal(deleteProjectModal);
             }
         }
-
     });
 
     document.addEventListener("DOMContentLoaded", () => {
         populateProjects();
         setInitialFilters();
         populateTasks[searchField.value ? "search" : "active"]();
-    });    
+    });
 }
 
 function populateProjects() {
     const projectList = document.querySelector(".projects ul");
     projectList.textContent = "";
-    projects.forEach(project => {
+    projects.forEach((project) => {
         const listItem = document.createElement("li");
         const projectItem = document.createElement("a");
         const editProjectButton = document.createElement("div");
@@ -145,9 +159,14 @@ function populateProjects() {
         projectItem.dataset.projectNumber = projects.indexOf(project);
         editProjectButton.dataset.projectNumber = projects.indexOf(project);
         deleteProjectButton.dataset.projectNumber = projects.indexOf(project);
-        listItem.append(projectItem, editName, deleteProjectButton, editProjectButton);
+        listItem.append(
+            projectItem,
+            editName,
+            deleteProjectButton,
+            editProjectButton
+        );
         projectList.appendChild(listItem);
-        
+
         editProjectButton.addEventListener("click", projectEdit);
         projectItem.addEventListener("click", changeProject);
         deleteProjectButton.addEventListener("click", deleteProject);
@@ -156,11 +175,11 @@ function populateProjects() {
 }
 
 function changeProject(e, ele) {
-    if(ele) {
+    if (ele) {
         activeProject.id = ele.dataset.projectNumber;
         activeProject.project = projects[ele.dataset.projectNumber];
     } else {
-        e.preventDefault();   
+        e.preventDefault();
         activeProject.id = e.target.dataset.projectNumber;
         activeProject.project = projects[e.target.dataset.projectNumber];
     }
@@ -181,7 +200,7 @@ function deleteProject(e) {
 
     confirmButton.addEventListener("click", () => {
         projects.splice(projectNumber, 1);
-        if(projects.length < 1) {
+        if (projects.length < 1) {
             addProject("Default project");
         }
         save();
@@ -189,26 +208,31 @@ function deleteProject(e) {
         setInitialFilters();
         populateProjects();
         populateTasks[activeFilter]();
-
     });
 
     deleteProjectModal.append(message, confirmButton);
-    
-    
+
     toggleModal(deleteProjectModal);
     confirmButton.focus();
-    document.querySelector(".sidebar .projects li input.active").classList.remove("active");
-    document.querySelector(".sidebar .projects li .delete.active").classList.remove("active");
-
-    
+    document
+        .querySelector(".sidebar .projects li input.active")
+        .classList.remove("active");
+    document
+        .querySelector(".sidebar .projects li .delete.active")
+        .classList.remove("active");
 }
-
 
 function projectEdit(e) {
     const projectNumber = e.target.dataset.projectNumber;
-    const projectName = document.querySelector(`.sidebar .projects [data-project-number = "${projectNumber}"]`);
-    const nameInput = document.querySelectorAll(`.sidebar .projects ul li input`)[projectNumber];
-    const deleteButton = document.querySelectorAll(`.sidebar .projects ul li .delete`)[projectNumber];
+    const projectName = document.querySelector(
+        `.sidebar .projects [data-project-number = "${projectNumber}"]`
+    );
+    const nameInput = document.querySelectorAll(
+        `.sidebar .projects ul li input`
+    )[projectNumber];
+    const deleteButton = document.querySelectorAll(
+        `.sidebar .projects ul li .delete`
+    )[projectNumber];
     const newNameInput = nameInput.cloneNode();
     nameInput.parentNode.replaceChild(newNameInput, nameInput);
     newNameInput.value = projectName.textContent;
@@ -220,47 +244,56 @@ function projectEdit(e) {
     function changeName() {
         newNameInput.classList.remove("active");
         deleteButton.classList.remove("active");
-        if(newNameInput.value != projectName.textContent) {
+        if (newNameInput.value != projectName.textContent) {
             projects[projectNumber].name = newNameInput.value.trim();
             save();
             projectName.textContent = newNameInput.value.trim();
         }
     }
 
-    newNameInput.addEventListener("keyup", e => {
-        if(e.key === "Enter") {
+    newNameInput.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
             changeName();
-        } else if(e.key === "Escape") {
+        } else if (e.key === "Escape") {
             newNameInput.value = projectName.textContent;
             newNameInput.blur();
         }
     });
     newNameInput.addEventListener("blur", () => {
-        if(!deleteButton.matches(":hover")){
+        // on small screens, you have to press enter to change name
+        if (!deleteButton.matches(":hover") && !document.querySelector(".sidebar.active")) {
             changeName();
         }
     });
-
 }
 
 function styleActiveProject() {
-    document.querySelectorAll(".projects ul li a").forEach(element => 
-        element.classList.remove("active"));
-    if(activeProject.id) {
-        document.querySelectorAll(".projects ul li a")[activeProject.id].classList.add("active");
+    document
+        .querySelectorAll(".projects ul li a")
+        .forEach((element) => element.classList.remove("active"));
+    if (activeProject.id) {
+        document
+            .querySelectorAll(".projects ul li a")
+            [activeProject.id].classList.add("active");
     } else {
         document.querySelector(".projects ul li a").classList.add("active");
-    }   
+    }
 }
 
 function styleActiveFilter() {
-    document.querySelectorAll(".sideContent .filter ul li a").forEach(element => 
-        element.classList.remove("active"));
-    if(activeFilter) {
-        document.querySelector(`.sideContent .filter ul li a[data-filter="${activeFilter}"]`)
-        .classList.add("active");
+    document
+        .querySelectorAll(".sideContent .filter ul li a")
+        .forEach((element) => element.classList.remove("active"));
+    if (activeFilter) {
+        document
+            .querySelector(
+                `.sideContent .filter ul li a[data-filter="${activeFilter}"]`
+            )
+            .classList.add("active");
     } else {
-        document.querySelector(".sideContent .filter ul li a").classList.add("active");
+        document
+            .querySelector(".sideContent .filter ul li a")
+            .classList.add("active");
     }
 }
 
@@ -276,8 +309,8 @@ function setInitialFilters() {
 const filterTasks = (() => {
     const filters = document.querySelectorAll(".sideContent .filter ul li a");
 
-    filters.forEach(filter => {
-        filter.addEventListener("click", e => {
+    filters.forEach((filter) => {
+        filter.addEventListener("click", (e) => {
             let filter = e.target.dataset.filter;
             e.preventDefault();
             styleActiveFilter();
@@ -293,31 +326,43 @@ const populateTasks = (() => {
     function writeTasks(tasks) {
         const taskList = document.querySelector(".main .tasks");
         taskList.textContent = "";
-        if(!tasks) return;
-        tasks.forEach(task => {
+        if (!tasks) return;
+        tasks.forEach((task) => {
             const taskBox = document.createElement("div");
             taskBox.classList.add("task");
-            taskBox.dataset.taskNumber = activeProject.project.tasks.indexOf(task);
+            taskBox.dataset.taskNumber =
+                activeProject.project.tasks.indexOf(task);
             taskBox.innerHTML = `<article>
             <h3>${task.title}</h3>
             <p>${task.description || ""}</p>
         </article>
         <div class="buttons">
-            <a class="complete${task.complete ? " done":""}" data-task-number="${activeProject.project.tasks.indexOf(task)}" href="">
+            <a class="complete${
+                task.complete ? " done" : ""
+            }" data-task-number="${activeProject.project.tasks.indexOf(
+                task
+            )}" href="">
             <i class="fa-solid fa-square-check fa-2xl"></i></a>
-        </div>`
-        taskBox.addEventListener("click", e => taskEdit.show(e.target.dataset.taskNumber));
-        taskList.appendChild(taskBox);
+        </div>`;
+            taskBox.addEventListener("click", (e) =>
+                taskEdit.show(e.target.dataset.taskNumber)
+            );
+            taskList.appendChild(taskBox);
         });
-    document.querySelectorAll(".task .buttons a.complete").forEach(button => {
-        button.addEventListener("click", e => {
-            e.preventDefault();
-            e.stopPropagation(); // So eventlistener on taskBox does not trigger, opening the task
-            let task = activeProject.project.tasks[e.target.dataset.taskNumber];
-            taskEdit.complete(task);
-            populateTasks[activeFilter]();
-        });
-    });
+        document
+            .querySelectorAll(".task .buttons a.complete")
+            .forEach((button) => {
+                button.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); // So eventlistener on taskBox does not trigger, opening the task
+                    let task =
+                        activeProject.project.tasks[
+                            e.target.dataset.taskNumber
+                        ];
+                    taskEdit.complete(task);
+                    populateTasks[activeFilter]();
+                });
+            });
     }
     function active() {
         let tasks = activeProject.project.getTasks.active();
@@ -344,11 +389,10 @@ const populateTasks = (() => {
         writeTasks(tasks);
     }
 
-    return { active, completed, today, thisWeek, search }
+    return { active, completed, today, thisWeek, search };
 })();
 
 const taskEdit = (() => {
-
     function show(taskNo) {
         activeTask = taskNo;
         let task = activeProject.project.tasks[taskNo];
@@ -356,7 +400,7 @@ const taskEdit = (() => {
         taskModal.innerHTML = `<div class="taskCard">
         <div class="task leftSide">
             <div class="task title">
-                <a class="complete${task.complete ? " done":""}">
+                <a class="complete${task.complete ? " done" : ""}">
                 <i class="fa-solid fa-square-check fa-2xl"></i>
                 <div class="checkMark"></div>
                 </a>
@@ -368,12 +412,16 @@ const taskEdit = (() => {
                 <a class="addCheckListItem"><i class="fa-solid fa-plus"></i></a>
                 <input type="text" class="addCheckListInput hidden"></input>
             </div>
-            <textarea class="task description" placeholder="Beskrivelse">${task.description || ""}</textarea>
+            <textarea class="task description" placeholder="Beskrivelse">${
+                task.description || ""
+            }</textarea>
         </div>
         <div class="task rightSide">
             <div class="task date">
                 <label for="taskDueDate">Due date</label>
-                <input type="date" name="dueDate" id="taskDueDate" value="${task.dueDate || ""}" required>
+                <input type="date" name="dueDate" id="taskDueDate" value="${
+                    task.dueDate || ""
+                }" required>
             </div>
             <div class="task priority">
                 <label for="taskPriority">Priority</label>
@@ -389,7 +437,7 @@ const taskEdit = (() => {
                 <button id="deleteTask">Delete</button>
             </div>
         </div>
-</div>`
+</div>`;
 
         const titleInput = taskModal.querySelector(".task.title input");
         const descriptionInput = taskModal.querySelector(".taskCard textarea");
@@ -400,7 +448,7 @@ const taskEdit = (() => {
         const deleteTaskButton = document.querySelector("#deleteTask");
 
         let checkList = taskModal.querySelector(".task.checkList");
-        task.checkList.forEach(item => {
+        task.checkList.forEach((item) => {
             const wrapper = document.createElement("div");
             wrapper.classList.add("checkListItem");
             const box = document.createElement("input");
@@ -422,28 +470,30 @@ const taskEdit = (() => {
             checkList.appendChild(wrapper);
         });
 
-        if(task.checkList.length < 1) {
+        if (task.checkList.length < 1) {
             checkList.textContent = "Add work items";
         }
 
         prioritySelect.value = task.priority;
 
-        taskModal.querySelector(".task.title a.complete").addEventListener("click", e => {
-            taskEdit.complete(task);
-            populateTasks[activeFilter]();
-            if(task.complete) {
-                e.target.classList.add("done");
-            } else e.target.classList.remove("done");
-        });
+        taskModal
+            .querySelector(".task.title a.complete")
+            .addEventListener("click", (e) => {
+                taskEdit.complete(task);
+                populateTasks[activeFilter]();
+                if (task.complete) {
+                    e.target.classList.add("done");
+                } else e.target.classList.remove("done");
+            });
 
         // Auto extend text area
         descriptionInput.addEventListener("keyup", (e) => {
             extendTextArea(e.target);
         });
 
-        titleInput.addEventListener("blur", e => {
+        titleInput.addEventListener("blur", (e) => {
             scrollLeft(e.target);
-            if(titleInput.value.trim()) {
+            if (titleInput.value.trim()) {
                 task.title = titleInput.value.trim();
                 save();
                 populateTasks[activeFilter]();
@@ -452,7 +502,7 @@ const taskEdit = (() => {
             }
         });
 
-        titleInput.addEventListener("focus", e => {
+        titleInput.addEventListener("focus", (e) => {
             e.target.selectionStart = e.target.value.length;
         });
 
@@ -474,14 +524,14 @@ const taskEdit = (() => {
             populateTasks[activeFilter]();
         });
 
-        checkList.querySelectorAll("input[type=checkbox]").forEach(item => {
-            item.addEventListener("change", e => {
+        checkList.querySelectorAll("input[type=checkbox]").forEach((item) => {
+            item.addEventListener("change", (e) => {
                 task.checkList[e.target.dataset.checkListId].toggle();
                 save();
             });
         });
 
-        checkList.querySelectorAll(".delete").forEach(item => {
+        checkList.querySelectorAll(".delete").forEach((item) => {
             item.addEventListener("click", () => {
                 task.checkList.splice([item.dataset.checkListId], 1);
                 save();
@@ -511,7 +561,7 @@ const taskEdit = (() => {
             if (enterBlurCheck) {
                 enterBlurCheck = false;
             } else {
-                if(addCheckListInput.value.trim()) {
+                if (addCheckListInput.value.trim()) {
                     newCheckListItem(task);
                 } else {
                     addCheckListInput.value = "";
@@ -520,20 +570,20 @@ const taskEdit = (() => {
             }
         });
 
-        addCheckListInput.addEventListener("keyup", e => {
-            if(e.key === "Enter") {
-                if(addCheckListInput.value.trim()) {
+        addCheckListInput.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") {
+                if (addCheckListInput.value.trim()) {
                     enterBlurCheck = true;
                     newCheckListItem(task);
                     addCheckListInput.focus();
                 }
-            } else if(e.key === "Escape") {
+            } else if (e.key === "Escape") {
                 addCheckListInput.value = "";
                 addCheckListInput.classList.add("hidden");
                 e.stopPropagation();
             }
         });
-        
+
         function newCheckListItem(task) {
             task.addCheckListItem(addCheckListInput.value.trim());
             save();
@@ -546,19 +596,27 @@ const taskEdit = (() => {
 
         toggleModal(taskModal);
         extendTextArea(descriptionInput);
-
     }
     function complete(task) {
         task.toggle();
         save();
     }
 
+    return { show, complete };
+})();
 
+const menu = (() => {
+    function toggle(ele) {
+        if (!ele.classList.contains("active")) {
+            ele.classList.add("active");
+            sidebar.querySelector(".open-menu").innerHTML = "&times;";
+        } else {
+            ele.classList.remove("active");
+            sidebar.querySelector(".open-menu").innerHTML = "&#9776;";
+        }
+    }
 
-
-    
-    
-    return { show, complete }
+    return { toggle };
 })();
 
 function scrollLeft(element) {
@@ -567,11 +625,11 @@ function scrollLeft(element) {
 
 function extendTextArea(element) {
     element.style.height = "1px";
-    element.style.height = (20 + element.scrollHeight) + "px";
+    element.style.height = 20 + element.scrollHeight + "px";
 }
 
 function addTask(data) {
-    activeProject.project.addTask(new task({title: data}))
+    activeProject.project.addTask(new task({ title: data }));
 }
 
-export { addEventListeners }
+export { addEventListeners };
