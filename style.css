@@ -678,6 +678,31 @@ input[type="checkbox"] {
         display: unset;
     }
 
+    .logo a {
+        white-space: nowrap;
+    }
+
+    .sidebar .logo a {
+        opacity: 0;
+        animation: slide-in 1s ease-in-out forwards;
+    }
+    
+    .sidebar.active .logo a {
+    }
+
+    @keyframes slide-in {
+        0% {
+            transform: translateX(-250%);
+            opacity: 0;
+        }
+        70%, 100% {
+            opacity: 1;
+        }
+        100%{
+            transform: translateX(0);
+        }
+    }
+
     .sidebar .open-menu {
         display: block;
     }
