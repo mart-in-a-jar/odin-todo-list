@@ -1,3 +1,4 @@
+import { signIn } from "./firebase";
 import { addProject, projects, task } from "./modules";
 import { saveToLocalStorage } from "./storage";
 const addProjectButton = document.querySelector("#addProject");
@@ -261,7 +262,10 @@ function projectEdit(e) {
     });
     newNameInput.addEventListener("blur", () => {
         // on small screens, you have to press enter to change name
-        if (!deleteButton.matches(":hover") && !document.querySelector(".sidebar.active")) {
+        if (
+            !deleteButton.matches(":hover") &&
+            !document.querySelector(".sidebar.active")
+        ) {
             changeName();
         }
     });
@@ -631,5 +635,10 @@ function extendTextArea(element) {
 function addTask(data) {
     activeProject.project.addTask(new task({ title: data }));
 }
+
+// Firebase
+const signInButton = document.querySelector(".sign-in");
+
+signInButton.addEventListener("click", signIn);
 
 export { addEventListeners };

@@ -29,7 +29,7 @@
         <div class="page">
             <header>
                 <div class="search">
-                    <!-- required so css can target a non empty input with "valid" -->
+                    <!-- Use attribute "required" so css can target a non empty input with "valid" -->
                     <input
                         class="search"
                         type="search"
@@ -99,15 +99,15 @@
                     </div>
                 </div>
                 <div class="sign-in-out">
-                    <div class="logged-out">
+                    <div class="logged-out sign-in">
                         <i class="fa-solid fa-user"></i> Sign in
                     </div>
-                    <div hidden class="logged-in">
+                    <div style="display: none;" class="logged-in">
                         <div class="user">
                             <div class="user-pic">po</div>
                             <div class="user-name">Name</div>
                         </div>
-                        <div class="log-out">Sign out</div>
+                        <div class="sign-out">Sign out</div>
                     </div>
                 </div>
             </div>
