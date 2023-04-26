@@ -1,69 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo-List</title>
-    <script src="main.js" defer></script>
-    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
-    <link rel="manifest" href="./icons/site.webmanifest">
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <div class="page">
-        <header>
-            <div class="search">
-                <!-- required so css can target a non empty input with "valid" -->
-                <input class="search" type="search" id="searchField" required>
-                <a href="" class="cancel"><i class="fa-solid fa-xmark fa-xl"></i></a>
-            </div>
-            <button id="newTask">New</button>
-        </header>
-        <div class="sidebar">
-            <span class="open-menu">&#9776;</span>
-            <div class="logo">
-                <a href="">
-                    <i class="fa-regular fa-square-check fa-2xl"></i>
-                    To Do
-                </a>
-            </div>
-            <div class="sideContent">
-                <div class="filter">
-                    <ul>
-                        <li><a id="filterActive" data-filter="active" href=""><i class="fa-solid fa-list-check"></i>All</a></li>
-                        <li><a id="filterToday" data-filter="today" href=""><i class="fa-solid fa-calendar-day"></i>Today</a></li>
-                        <li><a id="filterThisWeek" data-filter="thisWeek" href=""><i class="fa-solid fa-calendar-week"></i>This week</a></li>
-                        <li><a id="filterCompleted" data-filter="completed" href=""><i class="fa-solid fa-clipboard-check"></i>Completed</a></li>
-                    </ul>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Todo-List</title>
+        <script src="main.js" defer></script>
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="./icons/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="./icons/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="./icons/favicon-16x16.png"
+        />
+        <link rel="manifest" href="./icons/site.webmanifest" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+        <div class="page">
+            <header>
+                <div class="search">
+                    <!-- required so css can target a non empty input with "valid" -->
+                    <input
+                        class="search"
+                        type="search"
+                        id="searchField"
+                        required
+                    />
+                    <a href="" class="cancel"
+                        ><i class="fa-solid fa-xmark fa-xl"></i
+                    ></a>
                 </div>
-                <hr>
-                <div class="projects">
-                    <ul>
-                    </ul>
+                <button id="newTask">New</button>
+            </header>
+            <div class="sidebar">
+                <span class="open-menu">&#9776;</span>
+                <div class="logo">
+                    <a href="">
+                        <i class="fa-regular fa-square-check fa-2xl"></i>
+                        To Do
+                    </a>
                 </div>
+                <div class="sideContent">
+                    <div class="filter">
+                        <ul>
+                            <li>
+                                <a
+                                    id="filterActive"
+                                    data-filter="active"
+                                    href=""
+                                    ><i class="fa-solid fa-list-check"></i
+                                    >All</a
+                                >
+                            </li>
+                            <li>
+                                <a id="filterToday" data-filter="today" href=""
+                                    ><i class="fa-solid fa-calendar-day"></i
+                                    >Today</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    id="filterThisWeek"
+                                    data-filter="thisWeek"
+                                    href=""
+                                    ><i class="fa-solid fa-calendar-week"></i
+                                    >This week</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    id="filterCompleted"
+                                    data-filter="completed"
+                                    href=""
+                                    ><i class="fa-solid fa-clipboard-check"></i
+                                    >Completed</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <hr />
+                    <div class="projects">
+                        <ul></ul>
+                    </div>
                     <div id="addProject">
                         <ul>
                             <li><i class="fa-solid fa-plus-large"></i></li>
                         </ul>
                     </div>
+                </div>
+                <div class="sign-in-out">
+                    <div class="logged-out">
+                        <i class="fa-solid fa-user"></i> Sign in
+                    </div>
+                    <div hidden class="logged-in">
+                        <div class="user">
+                            <div class="user-pic">po</div>
+                            <div class="user-name">Name</div>
+                        </div>
+                        <div class="log-out">Sign out</div>
+                    </div>
+                </div>
             </div>
-
+            <div class="main">
+                <div class="tasks"></div>
+            </div>
+            <div class="modals">
+                <input
+                    class="addProjectModal hidden modal"
+                    id="projectName"
+                    type="text"
+                    placeholder="New project"
+                    autocomplete="off"
+                />
+                <input
+                    class="addTaskModal hidden modal"
+                    id="taskName"
+                    type="text"
+                    placeholder="New task"
+                    autocomplete="off"
+                />
+                <div class="taskModal hidden modal"></div>
+                <div class="delete hidden modal"></div>
+            </div>
+            <div class="blur"></div>
         </div>
-        <div class="main">
-            <div class="tasks">
-            </div>
-        </div>
-        <div class="modals">
-            <input class="addProjectModal hidden modal" id="projectName" type="text" placeholder="New project" autocomplete="off">
-            <input class="addTaskModal hidden modal" id="taskName" type="text" placeholder="New task" autocomplete="off">
-            <div class="taskModal hidden modal">
-            </div>
-            <div class="delete hidden modal">
-            </div>
-        </div>
-        <div class="blur"></div>
-    </div>
-</body>
+    </body>
 </html>

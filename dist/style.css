@@ -175,6 +175,8 @@ a:visited {
     padding-top: 20px;
     font-size: 1.5rem;
     transition: 1s;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar .open-menu {
@@ -199,6 +201,15 @@ a:visited {
     padding: 10px 10px 10px var(--padding_left_for_list_elements);
 }
 
+.sign-in-out {
+    margin-top: auto;
+    padding: 15px;
+}
+
+.user {
+    display: flex;
+}
+
 .sideContent a {
     display: block;
     overflow: hidden;
@@ -208,6 +219,7 @@ a:visited {
 
 .sideContent hr {
     border: 2px solid var(--headercolor);
+    width: 100%;
 }
 
 .logo a,
@@ -686,19 +698,17 @@ input[type="checkbox"] {
         opacity: 0;
         animation: slide-in 1s ease-in-out forwards;
     }
-    
-    .sidebar.active .logo a {
-    }
 
     @keyframes slide-in {
         0% {
             transform: translateX(-250%);
             opacity: 0;
         }
-        70%, 100% {
+        70%,
+        100% {
             opacity: 1;
         }
-        100%{
+        100% {
             transform: translateX(0);
         }
     }
@@ -707,8 +717,8 @@ input[type="checkbox"] {
         display: block;
     }
     .sidebar.active .open-menu {
-       font-size: 5rem;
-       line-height: 0.5em;
+        font-size: 5rem;
+        line-height: 0.5em;
     }
     .sidebar ul li .edit {
         display: block;
