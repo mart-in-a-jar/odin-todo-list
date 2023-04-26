@@ -5,24 +5,26 @@ import {
     getAuth,
     onAuthStateChanged,
     signInWithPopup,
-    signInWithRedirect,
+    signOut
 } from "firebase/auth";
+import { toggleSignInSignOut } from "./gui";
 
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-const signIn = async () => {
+const signInUser = async () => {
     await signInWithPopup(auth, provider);
 };
 
-const signOut = () => {
+const signOutUser = () => {
     signOut(auth);
 };
 
 // On sign in/out
 onAuthStateChanged(auth, (user) => {
+    toggleSignInSignOut(user);
     if (user) {
         // Signed in
         console.log("Signed in", user);
@@ -32,4 +34,4 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-export { signIn, signOut };
+export { signInUser, signOutUser };

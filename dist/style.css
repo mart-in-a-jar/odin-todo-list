@@ -211,11 +211,30 @@ a:visited {
     cursor: pointer;
 }
 
-.user {
+.logged-in {
     display: flex;
+    flex-direction: column;
 }
 
-.sideContent a {
+.user {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.user-pic {
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+    border-radius: 50%;
+}
+
+.user-name {
+    max-width: 175px;
+}
+
+.sideContent a,
+.user-name {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -693,6 +712,14 @@ input[type="checkbox"] {
     }
     .sidebar.active div {
         display: unset;
+    }
+
+    .sidebar.active .user-pic {
+        display: inline-block;
+    }
+
+    .sidebar.active .user {
+        display: flex;
     }
 
     .logo a {

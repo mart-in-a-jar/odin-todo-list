@@ -1,4 +1,4 @@
-import { signIn } from "./firebase";
+import { signInUser, signOutUser } from "./firebase";
 import { addProject, projects, task } from "./modules";
 import { saveToLocalStorage } from "./storage";
 const addProjectButton = document.querySelector("#addProject");
@@ -638,7 +638,24 @@ function addTask(data) {
 
 // Firebase
 const signInButton = document.querySelector(".sign-in");
+const userModule = document.querySelector(".logged-in");
+const userPic = document.querySelector(".user-pic");
+const userName = document.querySelector(".user-name");
+const signOutButton = document.querySelector(".sign-out");
 
-signInButton.addEventListener("click", signIn);
+signInButton.addEventListener("click", signInUser);
+signOutButton.addEventListener("click", signOutUser);
 
-export { addEventListeners };
+const toggleSignInSignOut = (user) => {
+    if (user) {
+        signInButton.style.display = "none";
+        userModule.style.display = "unset";
+        userPic.style.backgroundImage = `url(${user.photoURL})`;
+        userName.textContent = user.displayName.split(" ")[0];
+    } else {
+        signInButton.style.display = "unset";
+        userModule.style.display = "none";
+    }
+};
+
+export { addEventListeners, toggleSignInSignOut };
