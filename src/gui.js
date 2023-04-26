@@ -1,6 +1,6 @@
 import { signInUser, signOutUser } from "./firebase";
 import { addProject, projects, task } from "./modules";
-import { saveToLocalStorage } from "./storage";
+import { saveData } from "./storage";
 const addProjectButton = document.querySelector("#addProject");
 const addProjectModal = document.querySelector(".addProjectModal");
 const addTaskModal = document.querySelector(".addTaskModal");
@@ -22,7 +22,7 @@ let activeTask;
 let activeFilter;
 
 function save() {
-    saveToLocalStorage("projects", projects);
+    saveData(projects);
 }
 
 function setActiveModal(modal) {
@@ -135,10 +135,14 @@ function addEventListeners() {
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-        populateProjects();
-        setInitialFilters();
-        populateTasks[searchField.value ? "search" : "active"]();
+        initializeProjectsAndTasks();
     });
+}
+
+function initializeProjectsAndTasks() {
+    populateProjects();
+    setInitialFilters();
+    populateTasks[searchField.value ? "search" : "active"]();
 }
 
 function populateProjects() {
@@ -658,4 +662,4 @@ const toggleSignInSignOut = (user) => {
     }
 };
 
-export { addEventListeners, toggleSignInSignOut };
+export { addEventListeners, toggleSignInSignOut, initializeProjectsAndTasks };
