@@ -31,16 +31,13 @@ onAuthStateChanged(auth, (user) => {
     toggleSignInSignOut(user);
     if (user) {
         // Signed in
-        console.log("Signed in", user);
         // Clear tasks before fetching
         projects.length = 0;
         readFromFirestore();
     } else {
         // Signed out
-        console.log("Signed out", user);
-        // reset & retrieve data from localstorage?
+        // reset & retrieve data from localstorage
         projects.length = 0;
-        // addData(null);
         retrieveData();
         initializeProjectsAndTasks();
     }
@@ -61,7 +58,6 @@ const writeToFirestore = async (data) => {
 const readFromFirestore = async () => {
     const userStorage = doc(db, "todoProjects", auth.currentUser.email);
     const docSnap = await getDoc(userStorage);
-    console.log("docsnap:", docSnap);
     let data;
     if (docSnap.data()?.data) {
         data = JSON.parse(docSnap.data().data);

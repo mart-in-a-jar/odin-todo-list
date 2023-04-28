@@ -134,9 +134,6 @@ function addEventListeners() {
         }
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // initializeProjectsAndTasks();
-    });
 }
 
 function initializeProjectsAndTasks() {

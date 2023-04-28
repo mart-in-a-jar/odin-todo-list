@@ -18,7 +18,6 @@ function saveData(object) {
 }
 
 function retrieveData() {
-    console.log("retrieve")
     let result;
     if (isUserSignedIn()) {
         // result =
