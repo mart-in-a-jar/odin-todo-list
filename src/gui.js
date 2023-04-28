@@ -135,13 +135,13 @@ function addEventListeners() {
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-        initializeProjectsAndTasks();
+        // initializeProjectsAndTasks();
     });
 }
 
 function initializeProjectsAndTasks() {
-    populateProjects();
     setInitialFilters();
+    populateProjects();
     populateTasks[searchField.value ? "search" : "active"]();
 }
 
@@ -308,8 +308,6 @@ function styleActiveFilter() {
 function setInitialFilters() {
     activeProject.project = projects[0];
     activeProject.id = 0;
-    styleActiveProject();
-
     activeFilter = "active";
     styleActiveFilter();
 }

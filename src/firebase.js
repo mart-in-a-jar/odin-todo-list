@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 import { initializeProjectsAndTasks, toggleSignInSignOut } from "./gui";
-import { addData } from "./storage";
+import { addData, retrieveData } from "./storage";
 import { projects } from "./modules";
 
 const app = initializeApp(firebaseConfig);
@@ -40,7 +40,8 @@ onAuthStateChanged(auth, (user) => {
         console.log("Signed out", user);
         // reset & retrieve data from localstorage?
         projects.length = 0;
-        addData(null);
+        // addData(null);
+        retrieveData();
         initializeProjectsAndTasks();
     }
 });
@@ -49,7 +50,7 @@ onAuthStateChanged(auth, (user) => {
 const db = getFirestore(app);
 
 const writeToFirestore = async (data) => {
-    const userStorage = doc(db, auth.currentUser.email, "todoProjects");
+    const userStorage = doc(db, "todoProjects", auth.currentUser.email);
     try {
         await setDoc(userStorage, data);
     } catch (error) {
@@ -58,10 +59,11 @@ const writeToFirestore = async (data) => {
 };
 
 const readFromFirestore = async () => {
-    const userStorage = doc(db, auth.currentUser.email, "todoProjects");
+    const userStorage = doc(db, "todoProjects", auth.currentUser.email);
     const docSnap = await getDoc(userStorage);
+    console.log("docsnap:", docSnap);
     let data;
-    if (docSnap.data().data) {
+    if (docSnap.data()?.data) {
         data = JSON.parse(docSnap.data().data);
     } else {
         data = null;
